@@ -30,7 +30,7 @@ const Menu = ({ mobile = false }) => {
           className={({ isActive }) =>
             `flex items-center gap-2 px-2 py-1 transition ${
               isActive ? "text-yellow-400" : "text-white hover:text-yellow-300"
-            } text-[16px] md:text-[18px] tracking-wide`
+            } text-[16px] md:text-[12px] tracking-wide`
           }
          style={{fontFamily: 'rufina'}}>
           <span className="text-base">{icon}</span>
