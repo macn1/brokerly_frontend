@@ -11,10 +11,20 @@ import FnB from "./pages/FnB";
 import Shop from "./pages/Shop";
 import Contact from "./pages/Contact-Us/Contact";
 import About from "./pages/About-Us/About";
-
-
+import Terms from "./pages/TermsAndCondition/Terms";
+import Footer3 from './components/common/Footer3'
 function Layout() {
+
   const location = useLocation();
+    const renderFooter = () => {
+    if (location.pathname === "/contact-us") {
+      return <Footer2 />;
+    } else if (location.pathname === "/terms-and-condition") {
+      return <Footer3 />;
+    } else {
+      return <Footer />;
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -30,9 +40,12 @@ function Layout() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/contact-us" element={<Contact />} />
           <Route path="/about-us" element={<About />} />
+          <Route path="/terms-and-condition" element={<Terms />} />
+
         </Routes>
       </main>
-      {location.pathname === "/contact-us" ? <Footer2 /> : <Footer />}
+                {renderFooter()}
+
     </div>
   );
 }
