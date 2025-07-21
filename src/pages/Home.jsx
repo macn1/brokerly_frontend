@@ -2,8 +2,7 @@ import background from "../assets/hero.png";
 import Landing from "../assets/landing.jpg"
 import Apartments1Img from "../assets/Apartments1.png";
 import Apartments2Img from "../assets/Apartments2.png";
-import About1Img from "../assets/about1.png";
-import About2Img from "../assets/about2.png";
+
 
 import Host from '../assets/host.jpg'
 import Apartment from '../assets/apartment.jpg'
@@ -145,7 +144,7 @@ const Home = () => {
             className="text-3xl font-semibold text-[#181D24] mb-0 md:mb-6 text-center md:hidden"
             style={{ fontFamily: "Rufina" }}
           >
-          Your Host,
+            Your Host,
           </h2>
 
           <div className="w-full md:w-1/2 relative flex justify-center items-center order-2 md:order-2 mt-10 md:mt-10">
@@ -227,7 +226,7 @@ const Home = () => {
             >
               We have a driver to take you around and our concierge on the phone for any questions or assistance you may need. Our tailored F&B services are designed to give you that diet your used too or require if you are coming for medical reasons
             </p>
-        
+
             <p
               className="text-[#181D24]  text-sm mt-2 px-3 md:px-0"
               style={{ fontFamily: "Raleway", fontWeight: "500" }}

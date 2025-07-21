@@ -1,5 +1,10 @@
 import LetsConnectLandscapeImg from "../../assets/lets_connect_landscape.png";
 import LetsConnectVerticalImg from "../../assets/lets_connect_vertical.png";
+import faacebbok from '../../assets/icons/facebook.png'
+import whatsapp from '../../assets/icons/whatsapp.png'
+import ytb from '../../assets/icons/ytb.png'
+import figma from '../../assets/icons/figma.png'
+import net from '../../assets/icons/net.png'
 import logo from "../../assets/logo.png";
 const Footer = () => {
   return (
@@ -13,7 +18,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row gap-6 lg:gap-10 relative lg:py-32 top-[600px] md:top-[350px]">
           <div className="bg-[#181D24] text-white p-4 rounded-tr-[40px] lg:rounded-tr-[80px] w-full lg:w-[350px] flex flex-col items-center text-center shadow-lg">
             <h2
-              className="font-bold mt-3 text-[28px] mt-16 md:text-[35px]"
+              className="font-bold mt-3 text-[28px] mt-20 md:text-[35px]"
               style={{
                 fontFamily: "Rufina",
                 color: "#F5E9D6",
@@ -44,12 +49,12 @@ const Footer = () => {
 
           </div>
 
-          <div className="bg-white p-6 lg:p-[48px] w-full lg:w-[800.266px] rounded-br-[40px] lg:rounded-br-[80px] shadow-md">
-            <h2 className="text-[24px] md:text-[32px] lg:text-[38px] text-center lg:text-left font-semibold mb-6 text-[#181D24]" style={{ fontFamily: "Rufina" }}>
+          <div className="bg-white p-4 lg:p-6 w-full lg:w-[600px] rounded-br-[40px] lg:rounded-br-[80px] shadow-md">
+            <h2 className="text-[20px] md:text-[28px]  text-[28px] mt-10 text-center lg:text-left md:px-5 font-semibold mb-6 text-[#181D24]" style={{ fontFamily: "Rufina" }}>
               We’d love to hear from you
             </h2>
 
-            <form className="space-y-4">
+            <form className="space-y-4 px-5">
               <div className="flex flex-col md:flex-row gap-4">
                 <input
                   type="text"
@@ -90,12 +95,9 @@ const Footer = () => {
             </form>
           </div>
         </div>
-
       </div>
-
       {/* Mobile Only Section */}
       <div className="block md:hidden relative">
-        {/* Background Image */}
         <div
           className="w-full h-[695px] bg-no-repeat bg-cover bg-center"
           style={{
@@ -103,9 +105,8 @@ const Footer = () => {
           }}
         />
 
-        <div className="bg-[#DFE3E7] relative h-[640px]">
+        <div className="bg-[#DFE3E7] relative h-[540px]">
           <div className="max-w-7xl mx-auto px-4 flex flex-col gap-6 relative z-20 -top-[218px]">
-            {/* Let’s Connect Card */}
             <div className="bg-[#181D24] text-white p-8 rounded-tr-[40px] shadow-lg text-center ">
               <h2
                 className="font-bold mb-6 text-[28px]"
@@ -130,15 +131,15 @@ const Footer = () => {
                   Kondhwa Budruk, Pune, Maharashtra 411048
                 </p>
 
-                <div className="flex gap-4 mt-4 text-lg col-span-2">
-                  <i className="fab fa-facebook-f"></i>
-                  <i className="fab fa-youtube"></i>
-                  <i className="fab fa-whatsapp"></i>
+                <div className='flex gap-4 md:px- mt-3   mb-3 '>
+                  <img src={faacebbok} alt="fb" className='w-5 h-5' />
+                  <img src={whatsapp} alt="fb" className='w-5 h-5' />
+                  <img src={ytb} alt="fb" className='w-5 h-5' />
+                  <img src={figma} alt="fb" className='w-5 h-5' />
+                  <img src={net} alt="fb" className='w-5 h-5' />
                 </div>
               </div>
             </div>
-
-            {/* Contact Form */}
             <div className="bg-white p-6 rounded-br-[40px] shadow-md">
               <h2 className="text-[24px] text-center font-semibold mb-6 text-[#181D24]" style={{ fontFamily: "Rufina" }}>
                 We’d love to hear from you
@@ -179,19 +180,16 @@ const Footer = () => {
                 </button>
               </form>
             </div>
+
           </div>
         </div>
       </div>
 
-
-
-
-      {/* Bottom Footer Section */}
       <div className="bg-[#DFE3E7] pt-[0px] md:pt-[222px]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-sm p-6 px-4">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-sm p-6 px-5 md:px-4">
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <img src={logo} alt="AJP Logo" className="h-10 w-10 md:h-[30px] md:w-[30px]" />
+            <div className="flex items-center gap-3 mb-2 md:mt-10">
+              <img src={logo} alt="AJP Logo" className="h-10  w-10 md:h-[30px] md:w-[30px]" />
               <h4
                 className="text-[20px] leading-[24px] font-medium tracking-[2px] uppercase text-[#181D24]"
                 style={{ fontFamily: 'Raleway' }}
@@ -200,25 +198,14 @@ const Footer = () => {
               </h4>
             </div>
 
-            <p className="text-[#5B656F] text-sm leading-relaxed" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
+            <p className="text-[#5B656F] text-sm leading-relaxed mt-5" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
               We are a lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
             </p>
-            <div className="flex flex-wrap gap-3 md:gap-6 text-xs text-[#181D24] font-medium text-[14px] mt-8">
-              <a href="#" className="hover:underline text-[10px] md:text-[16px]" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
-                Terms & Conditions
-              </a>
-              <a href="#" className="hover:underline text-[10px] md:text-[16px]" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
-                Privacy Notice and Cookies
-              </a>
-              <a href="#" className="hover:underline text-[10px] md:text-[16px]" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
-                Imprint
-              </a>
-            </div>
           </div>
 
-          <div className="flex flex-col gap-2 ml-0 md:ml-0 lg:ml-[340px]">
-            <h4 className="font-bold text-sm mb-1 text-[#181D24]" style={{ fontFamily: 'Raleway', fontWeight: 700 }}>
+          <div className="flex flex-col gap-2 ml-0 md:ml-0 lg:ml-[170px] md:mt-10">
+            <h4 className="font-bold text-base mb-1 text-[#181D24]" style={{ fontFamily: 'Raleway', fontWeight: 700 }}>
               Connect with us
             </h4>
             <p className="text-sm text-[#181D24]" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
@@ -231,10 +218,17 @@ const Footer = () => {
             >
               info@ajpgroup.com
             </a>
-            <div className="flex gap-4 mt-2 text-lg text-[#181D24]">
-              <i className="fab fa-facebook-f"></i>
-              <i className="fab fa-youtube"></i>
-              <i className="fab fa-whatsapp"></i>
+            <div className='flex gap-4 md:px- mt-3   mb-3 '>
+              <img src={faacebbok} alt="fb" className='w-5 h-5' />
+              <img src={whatsapp} alt="fb" className='w-5 h-5' />
+              <img src={ytb} alt="fb" className='w-5 h-5' />
+              <img src={figma} alt="fb" className='w-5 h-5' />
+              <img src={net} alt="fb" className='w-5 h-5' />
+            </div>
+            <div className="flex gap-6">
+              <h3>Terms</h3>
+              <h3>Privacy</h3>
+              <h3>Contact</h3>
             </div>
             <p className="text-[12px] text-[#5B656F] mt-2" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
               AJP GROUPS | © All rights reserved 2022–2023
