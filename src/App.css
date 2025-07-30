@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+.nothover.ps-menu-button:hover {
+  background-color: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+}

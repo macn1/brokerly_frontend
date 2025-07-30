@@ -17,3 +17,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+a.ps-menu-button:hover {
+  background-color: transparent !important;
+  color: #000 !important; /* Or your desired color */
+}
