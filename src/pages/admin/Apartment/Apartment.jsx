@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ListLayout from "../common/ListLayout";
 import ApartmentModal from './ApartmentCreateModal'
-import { useGetAllApartmentsQuery } from '../../../store/api/apartment'
-
+import { useGetAllApartmentsQuery, useGetAllApartmentAmenityQuery, useGetAllApartmentFacilitiesQuery, useGetAllapartmentsExtraserviceQuery, useDeleteApartmentMutation } from '../../../store/api/apartment'
+import ApartmentDetailModal from './ApartmentDetail'
 const List = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [deleteApartment] = useDeleteApartmentMutation();
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+    const [selectedApartmentId, setSelectedApartmentId] = useState(null);
+    const [amenity, setAmenity] = useState([])
 
     const [count, setCount] = useState(10);
     const [filters, setFilters] = useState({});
@@ -14,15 +18,24 @@ const List = () => {
 
     const handleAddApartment = (formData) => {
         console.log("Form submitted with:", formData);
-        setIsModalOpen(false); // Close modal after submission
+        setIsModalOpen(false);
     };
+
+    const { data: ammenitydata } = useGetAllApartmentAmenityQuery()
+
+    const { data: extraService } = useGetAllapartmentsExtraserviceQuery()
+
+    const { data: facilty } = useGetAllApartmentFacilitiesQuery()
+
+    console.log(extraService, "facilty");
+
 
     const { data: ApartmentsData } = useGetAllApartmentsQuery({
         page: currentPage,
         page_size: pageSize,
         ...filters,
     });
-   
+
     const [aptdata, setAptdata] = useState([])
 
     useEffect(() => {
@@ -31,8 +44,12 @@ const List = () => {
         }
 
     }, [ApartmentsData])
+    useEffect(() => {
+        if (ammenitydata) {
+            setAmenity(ammenitydata.results)
+        }
 
-    console.log(ApartmentsData, "ApartmentsData");
+    }, [ammenitydata])
 
 
     const handleFilterChange = (field, value) => {
@@ -56,7 +73,11 @@ const List = () => {
     const actionButtons = [
         {
             icon: "MdOutlineRemoveRedEye",
-            onClick: (row) => console.log(`View ${row.id}`),
+            onClick: (row) => {
+                 console.log("Selected Apartment ID:", row.id);
+                setSelectedApartmentId(row.id);
+                setIsDetailModalOpen(true);
+            }
         },
         {
             icon: "MdOutlineModeEdit",
@@ -64,15 +85,25 @@ const List = () => {
         },
         {
             icon: "RiDeleteBinLine",
-            onClick: (row) => console.log(`Delete ${row.id}`),
-        },
+            onClick: async (row) => {
+                const confirmDelete = window.confirm(`Are you sure you want to delete apartment ID ${row.id}?`);
+                if (confirmDelete) {
+                    try {
+                        await deleteApartment(row.id).unwrap();
+                        alert("Apartment deleted successfully.");
+                    } catch (error) {
+                        console.error("Delete failed:", error);
+                        alert("Failed to delete apartment.");
+                    }
+                }
+            },
+        }
     ];
 
     const filterFields = [
         { name: "name", label: "User Name", type: "text", width: "w-64" },
         { name: "email", label: "Email", type: "text", width: "w-64" },
         { name: "role", label: "Role", type: "text", width: "w-64" },
-
     ];
 
     return (
@@ -94,10 +125,18 @@ const List = () => {
                 }}
             />
             <ApartmentModal
-                isOpen={isModalOpen} 
+                isOpen={isModalOpen}
+                amenity={amenity}
+                facilty={facilty}
+                extraService={extraService}
                 onClose={() => setIsModalOpen(false)}
                 title="Edit Property"
-                onSubmit={handleAddApartment} 
+                onSubmit={handleAddApartment}
+            />
+            <ApartmentDetailModal
+                isOpen={isDetailModalOpen}
+                apartmentId={selectedApartmentId}
+                onClose={() => setIsDetailModalOpen(false)}
             />
         </>
     );

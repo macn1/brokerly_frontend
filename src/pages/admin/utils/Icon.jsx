@@ -18,8 +18,14 @@ import { BsPrinter } from "react-icons/bs";
 import { MdLogout } from "react-icons/md";
 import { FaUserLock } from "react-icons/fa";
 import { FaBuilding, FaCheckCircle, FaDoorOpen,  } from "react-icons/fa";
+import { RiServiceFill } from "react-icons/ri";
+import { MdRoomService } from "react-icons/md";
+import { MdHomeRepairService } from "react-icons/md";
 
 const iconMap = {
+  MdHomeRepairService,
+  MdRoomService ,
+  RiServiceFill,
   FaDoorOpen,
   FaUserLock,
   MdLogout,

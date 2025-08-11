@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import ListLayout from "../common/ListLayout";
-
-import { useGetAllApartmentAmenityQuery } from '../../../store/api/apartment'
+import AmenityCreateModal from "./CreateAmenityModal";
+import { useGetAllApartmentAmenityQuery, useDeleteApartmentAmenityMutation, useCreateApartmentAmenityMutation } from '../../../store/api/apartment'
 
 const List = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-
+    const [deleteAmenity] = useDeleteApartmentAmenityMutation();
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [count, setCount] = useState(0);
     const [filters, setFilters] = useState({});
     const [tableData, setTableData] = useState([]);
 
-    const { data: ApartmentsData } = useGetAllApartmentAmenityQuery({
+    const { data: ApartmentsData, refetch } = useGetAllApartmentAmenityQuery({
         page: currentPage,
         page_size: pageSize,
         ...filters,
@@ -39,12 +40,9 @@ const List = () => {
         setCurrentPage(1);
     };
 
-
-
-        const tableHeaders = [
+    const tableHeaders = [
         { label: "Name", key: "name" },
         { label: "Logo", key: "logo" },
-    ,
     ];
 
 
@@ -59,8 +57,21 @@ const List = () => {
         },
         {
             icon: "RiDeleteBinLine",
-            onClick: (row) => console.log(`Delete ${row.id}`),
-        },
+            onClick: async (row) => {
+                const confirmDelete = window.confirm(`Are you sure you want to delete this ${row.name}?`);
+                if (confirmDelete) {
+                    try {
+                        await deleteAmenity(row.id).unwrap();
+                        alert("Apartment Amenity deleted successfully.");
+
+                        refetch()
+                    } catch (error) {
+                        console.error("Delete failed:", error);
+                        alert("Failed to delete apartment Amenity.");
+                    }
+                }
+            },
+        }
     ];
 
     const filterFields = [
@@ -78,12 +89,20 @@ const List = () => {
                 onFilterChange={handleFilterChange}
                 tableHeaders={tableHeaders}
                 tableData={tableData}
-                // actionButtons={actionButtons}
+                actionButtons={actionButtons}
                 currentPage={currentPage}
+                onAddNewButton={() => setIsModalOpen(true)}
                 setCurrentPage={setCurrentPage}
                 pageSize={pageSize}
                 setPageSize={setPageSize}
                 totalCount={count}
+            />
+            <AmenityCreateModal
+                isOpen={isModalOpen}
+                onClose={() => {
+                    setIsModalOpen(false);
+                    refetch(); // refresh list after modal is closed
+                }}
             />
 
         </>

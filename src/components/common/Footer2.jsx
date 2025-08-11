@@ -1,50 +1,106 @@
+import React, { useState } from "react";
 import LetsConnectLandscapeImg from "../../assets/lets_connect_landscape.png";
 import LetsConnectVerticalImg from "../../assets/lets_connect_vertical.png";
-import faacebbok from '../../assets/icons/facebook.png'
-import whatsapp from '../../assets/icons/whatsapp.png'
-import ytb from '../../assets/icons/ytb.png'
-import figma from '../../assets/icons/figma.png'
-import net from '../../assets/icons/net.png'
+import faacebbok from "../../assets/icons/facebook.png";
+import whatsapp from "../../assets/icons/whatsapp.png";
+import ytb from "../../assets/icons/ytb.png";
+import figma from "../../assets/icons/figma.png";
+import net from "../../assets/icons/net.png";
 import logo from "../../assets/logo.png";
+import { useCreateContactMutation } from "../../store/api/bookings";
+import { useNavigate } from "react-router-dom";
+
 const Footer = () => {
+    const [createContact] = useCreateContactMutation();
+    const navigate = useNavigate()
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        message: "",
+        termsandcondition: false,
+    });
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await createContact(formData).unwrap();
+            alert("Message sent successfully!");
+            setFormData({
+                name: "",
+                email: "",
+                message: "",
+                termsandcondition: false,
+            });
+        } catch (error) {
+            console.error("Contact submission error:", error);
+            alert("Failed to send message.");
+        }
+    };
+
     return (
         <footer className="h-screen flex flex-col">
-            {/* Top 50% with custom background color */}
+
             <div className="h-[800px] bg-[] flex items-center">
-                <div className="max-w-7xl mx-auto px-4 w-full md:px-[55px] ">
-                    {/* Contact Form */}
-                    <div className="bg-white p-6 rounded-br-[40px] shadow-md mb-10 ">
+                <div className="max-w-7xl mx-auto px-4 w-full md:px-[55px]">
+                    <div className="bg-white p-6 rounded-br-[40px] shadow-2xl mb-10">
                         <h2
                             className="text-[24px] text-center font-semibold mb-6 text-[#181D24]"
                             style={{ fontFamily: "Rufina" }}
                         >
                             We’d love to hear from you
                         </h2>
-                        <form className="space-y-4">
+                        <form className="space-y-4" onSubmit={handleSubmit}>
                             <input
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
                                 type="text"
                                 placeholder="Your Name"
                                 className="w-full border-b border-gray-300 bg-transparent outline-none py-2 placeholder-[#5B656F]"
                                 style={{ fontFamily: "Raleway", fontWeight: 500 }}
+                                required
                             />
                             <input
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
                                 type="email"
                                 placeholder="Email"
                                 className="w-full border-b border-gray-300 bg-transparent outline-none py-2 placeholder-[#5B656F]"
                                 style={{ fontFamily: "Raleway", fontWeight: 500 }}
+                                required
                             />
                             <textarea
+                                name="message"
+                                value={formData.message}
+                                onChange={handleChange}
                                 placeholder="Message"
                                 rows={4}
                                 className="w-full border-b border-gray-300 bg-transparent outline-none py-2 resize-none placeholder-[#5B656F]"
                                 style={{ fontFamily: "Raleway", fontWeight: 500 }}
+                                required
                             />
                             <div className="flex flex-col">
                                 <label
                                     className="text-sm"
                                     style={{ fontFamily: "Raleway", fontWeight: 400 }}
                                 >
-                                    <input type="checkbox" className="mr-2" />
+                                    <input
+                                        name="termsandcondition"
+                                        type="checkbox"
+                                        checked={formData.termsandcondition}
+                                        onChange={handleChange}
+                                        className="mr-2"
+                                        required
+                                    />
                                     I accept the Terms and conditions
                                 </label>
                                 <button
@@ -58,9 +114,7 @@ const Footer = () => {
                                         SEND
                                     </span>
                                 </button>
-
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -68,89 +122,57 @@ const Footer = () => {
 
             {/* Bottom 50% with white background */}
             <div className="h-1/2 bg-[#DFE3E7]">
-                <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-sm p-6 px-7 md:px-4">
                     <div>
-                        <div className="flex items-center gap-3 mb-2">
-                            <img src={logo} alt="AJP Logo" className="h-10 w-10" />
+                        <div className="flex items-center gap-3 mb-2 md:mt-10">
+                            <img src={logo} alt="AJP Logo" className="h-10  w-10 md:h-[30px] md:w-[30px]" />
                             <h4
                                 className="text-[20px] leading-[24px] font-medium tracking-[2px] uppercase text-[#181D24]"
-                                style={{ fontFamily: "Raleway" }}
+                                style={{ fontFamily: 'Raleway' }}
                             >
                                 AJP GROUP
                             </h4>
                         </div>
-                        <p
-                            className="text-[#5B656F] text-sm leading-relaxed mt-5"
-                            style={{ fontFamily: "Raleway", fontWeight: 400 }}
-                        >
-                            We are a lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+
+                        <p className="text-[#5B656F] text-sm leading-relaxed mt-5" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
+                            We are a lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                         </p>
-                        <div className="flex flex-wrap gap-3 text-xs text-[#181D24] font-medium text-[14px] mt-8">
-                            <a
-                                href="#"
-                                className="hover:underline text-[12px]"
-                                style={{ fontFamily: "Raleway", fontWeight: 400 }}
-                            >
-                                Terms & Conditions
-                            </a>
-                            <a
-                                href="#"
-                                className="hover:underline text-[12px]"
-                                style={{ fontFamily: "Raleway", fontWeight: 400 }}
-                            >
-                                Privacy Notice and Cookies
-                            </a>
-                            <a
-                                href="#"
-                                className="hover:underline text-[12px]"
-                                style={{ fontFamily: "Raleway", fontWeight: 400 }}
-                            >
-                                Imprint
-                            </a>
-                        </div>
                     </div>
 
-                    <div className="flex flex-col gap-2">
-                        <h4
-                            className="font-bold text-base mb-1 text-[#181D24]"
-                            style={{ fontFamily: "Raleway", fontWeight: 700 }}
-                        >
+                    <div className="flex flex-col gap-2 ml-0 md:ml-0 lg:ml-[170px] md:mt-10">
+                        <h4 className="font-bold text-base mb-1 text-[#181D24]" style={{ fontFamily: 'Raleway', fontWeight: 700 }}>
                             Connect with us
                         </h4>
-                        <p
-                            className="text-sm text-[#181D24]"
-                            style={{ fontFamily: "Raleway", fontWeight: 400 }}
-                        >
+                        <p className="text-sm text-[#181D24]" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
                             +91 9138295999
                         </p>
                         <a
                             href="mailto:info@ajpgroup.com"
                             className="text-sm text-[#181D24] underline"
-                            style={{ fontFamily: "Raleway", fontWeight: 400 }}
+                            style={{ fontFamily: 'Raleway', fontWeight: 400 }}
                         >
                             info@ajpgroup.com
                         </a>
-                        <div className="flex gap-4 mt-3 mb-3">
-                            <img src={faacebbok} alt="fb" className="w-5 h-5" />
-                            <img src={whatsapp} alt="whatsapp" className="w-5 h-5" />
-                            <img src={ytb} alt="ytb" className="w-5 h-5" />
-                            <img src={figma} alt="figma" className="w-5 h-5" />
-                            <img src={net} alt="net" className="w-5 h-5" />
+                        <div className='flex gap-4 md:px- mt-3   mb-3 '>
+                            <img src={faacebbok} alt="fb" className='w-5 h-5' />
+                            <img src={whatsapp} alt="fb" className='w-5 h-5' />
+                            <img src={ytb} alt="fb" className='w-5 h-5' />
+                            <img src={figma} alt="fb" className='w-5 h-5' />
+                            <img src={net} alt="fb" className='w-5 h-5' />
                         </div>
-                        <p
-                            className="text-[12px] text-[#5B656F]"
-                            style={{ fontFamily: "Raleway", fontWeight: 400 }}
-                        >
+                        <div className="flex gap-6">
+                            <h3 onClick={() => { navigate('/terms-and-condition') }}  className="cursor-pointer hover:underline">Terms</h3>
+                            <h3  className="cursor-pointer hover:underline">Privacy</h3>
+                            <h3 onClick={() => { navigate('/contact-us') }} className="cursor-pointer hover:underline">Contact</h3>
+                        </div>
+                        <p className="text-[12px] text-[#5B656F] mt-2" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
                             AJP GROUPS | © All rights reserved 2022–2023
                         </p>
                     </div>
                 </div>
             </div>
         </footer>
-
-
-
     );
 };
 

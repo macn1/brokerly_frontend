@@ -13,14 +13,14 @@ import small4 from "../../assets/apartments/small4.png";
 import small5 from "../../assets/apartments/small5.png";
 import small6 from '../../assets/apartments/small6.jpg'
 import button_icon from "../../assets/apartments/button_icon.png";
-import { useGetAllAmenityQuery, useGetAllapartmentAmenityQuery, useGetApartmentByIdQuery, useGetAllApartmentsQuery } from '../../store/api/apartment'
+import { useGetAllAmenityQuery, useGetAllapartmentAmenityQuery, useGetApartmentByIdQuery, useGetAllApartmentsQuery ,} from '../../store/api/apartment'
 import { DateRange } from "react-date-range";
 import { addDays, differenceInDays } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
 const Apartments = () => {
-  const [features, setFeatures] = useState([])
+  // const [features, setFeatures] = useState([])
   const [aptamenity, setAptamenity] = useState()
   const [description, setDescription] = useState('')
   const [kingstonDescription, setKingstonDescription] = useState('')
@@ -30,7 +30,18 @@ const Apartments = () => {
   const { data: apartmentAmenity } = useGetAllapartmentAmenityQuery();
   const { data: lodhaaptData } = useGetApartmentByIdQuery(6);
   const { data: kingstonData } = useGetApartmentByIdQuery(7);
-
+   const features = [
+    "2 Bedrooms",
+    "Living area",
+    "Dining table with 4 Chairs",
+    "2 Bathroom",
+    "65 inch television",
+    "Furnished",
+    "Cleaning Included",
+    "Balcony",
+    "Bed Linen/Towels",
+    "CCTV Camera",
+  ];
   useEffect(() => {
     if (apartmentsData) {
       setAllApartmentsData(Array.isArray(apartmentsData) ? apartmentsData : []);
@@ -49,12 +60,12 @@ const Apartments = () => {
     }
   }, [lodhaaptData])
 
-  useEffect(() => {
-    if (amenityData) {
-      const names = amenityData.map(item => item.name);
-      setFeatures(names);
-    }
-  }, [amenityData]);
+  // useEffect(() => {
+  //   if (amenityData) {
+  //     const names = amenityData.map(item => item.name);
+  //     setFeatures(names);
+  //   }
+  // }, [amenityData]);
   const thumbnails = [small1, small2, small3, small4, small5, small6];
 
 
@@ -71,6 +82,7 @@ const Apartments = () => {
   const end = selection[0].endDate;
   const dayDiff = differenceInDays(end, start);
   const total = dailyRate * dayDiff;
+  const baseUrl = process.env.REACT_APP_API_URL.replace("/api", "");
 
   useEffect(() => {
     const style = document.createElement("style");
@@ -86,17 +98,17 @@ const Apartments = () => {
 
 
   const navigate = useNavigate();
-const handleBooking = (apartment) => {
-  navigate('/booking', {
-    state: {
-      apartmentName: apartment.name,
-      location: apartment.location,
-      checkIn: selection[0].startDate,
-      checkOut: selection[0].endDate,
-    
-    },
-  });
-};
+  const handleBooking = (apartment) => {
+    navigate('/booking', {
+      state: {
+        apartmentName: apartment.name,
+        location: apartment.location,
+        checkIn: selection[0].startDate,
+        checkOut: selection[0].endDate,
+
+      },
+    });
+  };
   return (
     <>
       <div className="relative">
@@ -115,7 +127,7 @@ const handleBooking = (apartment) => {
                 <div className="flex justify-between items-start mb-4 flex-wrap ">
                   <div>
                     <h1
-                      className="font-semibold text-[#FFFFFF] text-[30px]"
+                      className="font-semibold text-[#FFFFFF] md:text-[30px] text-[20px]]"
                       style={{ fontFamily: "Rufina", fontWeight: "700" }}
                     >
                       {apartment.name}
@@ -160,21 +172,27 @@ const handleBooking = (apartment) => {
                     >
                       From <b>$450 / daily</b>
                     </div>
-                    <img
-                      src={big1}
-                      alt="Apartment"
-                      className="w-full h-[280px] md:h-[380px] object-none rounded"
-                    />
+                    {apartment.images && apartment.images.length > 0 && (
+                      <img
+                        src={`${baseUrl}${apartment.images.find(img => img.sequence === "1")?.image}`}
+
+                        alt="Apartment"
+                        className="w-full h-[380px] md:h-[380px] object-none rounded"
+                      />
+                    )}
                   </div>
                   <div className="md:col-span-5 grid grid-cols-2 gap-1">
-                    {thumbnails.map((img, idx) => (
-                      <img
-                        key={idx}
-                        src={img}
-                        alt={`Thumbnail ${idx + 1}`}
-                        className="w-full h-28 md:h-[124px] object-cover rounded"
-                      />
-                    ))}
+                    {apartment.images && apartment.images
+                      .filter(img => img.sequence !== "1") 
+                      .sort((a, b) => a.sequence - b.sequence) 
+                      .map((img, idx) => (
+                        <img
+                          key={idx}
+                          src={`${baseUrl}${img.image}`}
+                          alt={`Thumbnail ${idx + 1}`}
+                          className="w-full h-28 md:h-[124px] object-cover rounded"
+                        />
+                      ))}
                   </div>
                 </div>
               </div>
@@ -220,7 +238,7 @@ const handleBooking = (apartment) => {
                         {apartment.amenities?.map((item, idx) => (
                           <div key={idx} className="flex items-center gap-2">
                             <img
-                              src={`http://127.0.0.1:8000${item.logo}`}
+                              src={`${baseUrl}${item.logo}`}
                               alt={item.name}
                               className="w-4 h-5 object-contain"
                             />
@@ -425,7 +443,7 @@ const handleBooking = (apartment) => {
                             CALL OWNER
                             <FaPhoneAlt className="h-4 w-4" />
                           </button>
-                          <button  onClick={() => handleBooking(apartment)}
+                          <button onClick={() => handleBooking(apartment)}
                             className="flex items-center justify-center gap-2 bg-[#5B656F] text-white px-4 py-2 rounded-md hover:bg-[#374151] transition text-xs sm:text-sm w-full sm:w-auto"
                             style={{ fontFamily: "Raleway", fontWeight: 600 }}
                           >

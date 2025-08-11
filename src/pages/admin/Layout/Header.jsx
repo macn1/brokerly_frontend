@@ -6,19 +6,22 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function Header() {
-  const user = useSelector((state) => state.user);
+
   const location = useLocation();
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const id = useSelector((state) => state.user.id);
+  const userName = useSelector((state) => state.user.userName);
+  const email = useSelector((state) => state.user.email);
+  const role = useSelector((state) => state.user.role);
+  const token = useSelector((state) => state.user.token);
+
+  console.log(userName,email,role);
   
-  // Sample notification count - replace with your actual data
+
   const [notificationCount, setNotificationCount] = useState(3);
-  
-  const handleBellClick = () => {
-    if (user.userType === 'Staff') {
-      navigate('/approved-list');
-    }
-  };
+
+
 
   const toggleProfileDropdown = () => {
     setIsProfileOpen(!isProfileOpen);
@@ -37,8 +40,8 @@ function Header() {
         {/* Right section - Icons and profile */}
         <div className="flex items-center space-x-6">
           {/* Notification bell */}
-          <button 
-            onClick={handleBellClick}
+          <button
+            onClick={""}
             className="relative p-2 rounded-full text-gray-600 hover:bg-gray-100 focus:outline-none transition-all"
           >
             <div className="relative">
@@ -58,18 +61,16 @@ function Header() {
               className="flex items-center space-x-2 focus:outline-none group"
             >
               <div className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-blue-100 to-blue-50 text-zinc-600 border border-blue-100">
-                {user?.avatar ? (
-                  <img src={user.avatar} alt="Profile" className="w-full h-full rounded-full object-cover" />
-                ) : (
+          
                   <HiOutlineUserCircle className="h-5 w-5" />
-                )}
+              
               </div>
               <div className="text-left hidden md:block">
                 <p className="text-sm font-medium text-gray-800 group-hover:text-blue-600 transition-colors">
-                  {user?.name || 'User Name'}
+                  {userName || 'User Name'}
                 </p>
                 <p className="text-xs text-gray-500 group-hover:text-blue-500 transition-colors capitalize">
-                  {user?.userType || 'User Role'}
+                  {role || 'User Role'}
                 </p>
               </div>
               <FaChevronDown className={`h-3 w-3 text-gray-500 transition-transform ${isProfileOpen ? 'transform rotate-180' : ''}`} />
@@ -79,8 +80,8 @@ function Header() {
             {isProfileOpen && (
               <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100">
                 <div className="px-4 py-3 border-b border-gray-100">
-                  <p className="text-sm font-medium text-gray-800">{user?.name || 'User Name'}</p>
-                  <p className="text-xs text-gray-500 truncate">{user?.email || 'user@example.com'}</p>
+                  <p className="text-sm font-medium text-gray-800">{userName || 'User Name'}</p>
+                  <p className="text-xs text-gray-500 truncate">{email|| 'user@example.com'}</p>
                 </div>
                 <a
                   href="#"

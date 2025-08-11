@@ -1,5 +1,10 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+
+
+import { Routes, Route, useLocation } from "react-router-dom";
+import PrivateRoute from "./Routes/PrivateRoute";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import Footer2 from "./components/common/Footer2";
@@ -19,10 +24,25 @@ import Bookings from "./pages/Booking/Bookings";
 import Login from "./pages/admin/Login/Login";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import AdminLayout from "./pages/admin/Layout/AdminLayout";
-import Amenities from './pages/admin/Amenities/Amenities' 
-
-function Layout() {
+import Amenities from './pages/admin/Amenities/Amenities'
+import Contacted from "./pages/admin/contacted/Contacted";
+import Facility from './pages/admin/Facility-Services/Facility'
+import Extra from './pages/admin/Extrra-service/Exrtra'
+export default function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const [hasRedirected, setHasRedirected] = useState(false);
+
+
+  // useEffect(() => {
+  //   if (!hasRedirected) {
+  //     setHasRedirected(true);
+  //     if (location.pathname === "/") {
+  //       navigate("/login", { replace: true });
+  //     }
+  //   }
+  // }, [hasRedirected, location.pathname, navigate]);
 
   const isLayoutHidden =
     location.pathname.startsWith("/admin") || location.pathname === "/login";
@@ -43,7 +63,6 @@ function Layout() {
 
       <main className="flex-1">
         <Routes>
-         
           <Route path="/" element={<Home />} />
           <Route path="/apartments" element={<Apartments />} />
           <Route path="/booking" element={<Bookings />} />
@@ -56,16 +75,18 @@ function Layout() {
           <Route path="/about-us" element={<About />} />
           <Route path="/terms-and-condition" element={<Terms />} />
           <Route path="/login" element={<Login />} />
+          <Route element={<PrivateRoute/>}>
 
-          
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="apartment-list" element={<Apartment />} />
-            <Route path="apartment-amenities" element={<Amenities />} />
-
-
-           
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="apartment-list" element={<Apartment />} />
+              <Route path="apartment-amenities" element={<Amenities />} />
+              <Route path="contacted-customers" element={<Contacted />} />
+              <Route path="apartment-facility" element={<Facility />} />
+              <Route path="extra-service" element={<Extra />} />
+            </Route>
           </Route>
+
         </Routes>
       </main>
 
@@ -74,4 +95,3 @@ function Layout() {
   );
 }
 
-export default Layout;

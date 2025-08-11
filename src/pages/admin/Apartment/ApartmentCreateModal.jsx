@@ -1,48 +1,12 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import {useGetAllApartmentAmenityQuery} from "../../../store/api/apartment"
-
-const amenityOptions = [
-  { id: 8, name: "WiFi" },
-  { id: 9, name: "TV" },
-  { id: 10, name: "Parking" },
-  { id: 11, name: "Gym" },
-  { id: 12, name: "AC" },
-  { id: 13, name: "Fridge" },
-  { id: 14, name: "Heater" },
-  { id: 15, name: "Balcony" },
-  { id: 16, name: "Kitchen" },
-];
-
-const facilityOptions = [
-  { id: 1, name: "Lift" },
-  { id: 2, name: "Power Backup" },
-  { id: 3, name: "Swimming Pool" },
-  { id: 4, name: "Security" },
-  { id: 5, name: "CCTV" },
-  { id: 6, name: "Water Supply" },
-  { id: 7, name: "Fire Safety" },
-  { id: 8, name: "Club House" },
-  { id: 9, name: "Parking" },
-  { id: 10, name: "Gym" },
-  { id: 11, name: "Garden" },
-  { id: 12, name: "Play Area" },
-  { id: 13, name: "Intercom" },
-  { id: 14, name: "Wifi" },
-  { id: 15, name: "Laundry" },
-  { id: 16, name: "Reception" },
-];
-
-const etcServiceOptions = [
-  { id: 1, name: "Housekeeping" },
-  { id: 2, name: "Maintenance" },
-  { id: 3, name: "Pest Control" },
-  { id: 4, name: "Laundry" },
-  { id: 5, name: "Concierge" },
-  { id: 6, name: "Delivery" },
-];
-
-const ApartmentModal = ({ isOpen, onClose, onSubmit }) => {
+import { useGetAllApartmentAmenityQuery, useCreateApartmentMutation } from "../../../store/api/apartment"
+import Fileupload from '../common/Fileupload'
+const ApartmentModal = ({ isOpen, onClose, onSubmit, amenity, facilty, extraService }) => {
+  const [createdApartmentId, setCreatedApartmentId] = useState(null);
+  const [showImageUpload, setShowImageUpload] = useState(false);
+  console.log(createdApartmentId, "createdApartmentId#12345");
+  const [apartmentFormPayload, setApartmentFormPayload] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -59,12 +23,13 @@ const ApartmentModal = ({ isOpen, onClose, onSubmit }) => {
     facilities: [],
     etc_service: [],
   });
+  const [createApartment, { isLoading, isSuccess, isError, error }] = useCreateApartmentMutation();
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  
+
   const handleCheckboxChange = (field, id) => {
     setFormData((prev) => {
       const updated = prev[field].includes(id)
@@ -77,7 +42,7 @@ const ApartmentModal = ({ isOpen, onClose, onSubmit }) => {
   const handleSubmit = () => {
     const payload = {
       name: formData.name,
-      category: parseInt(formData.category),
+      // category: parseInt(formData.category),
       location: formData.location,
       description: formData.description,
       website_url: formData.website_url,
@@ -93,10 +58,8 @@ const ApartmentModal = ({ isOpen, onClose, onSubmit }) => {
       facilities: formData.facilities,
       etc_service: formData.etc_service,
     };
-
-    onSubmit(payload);
-    console.log(payload,"payloaad");
-    
+    setApartmentFormPayload(payload);  // store in state
+    setShowImageUpload(true);
   };
 
   if (!isOpen) return null;
@@ -141,7 +104,7 @@ const ApartmentModal = ({ isOpen, onClose, onSubmit }) => {
               className="w-full border px-3 py-2 rounded"
             />
           </div>
-          <div>
+          {/* <div>
             <label className="block font-medium">Category</label>
             <input
               type="number"
@@ -149,7 +112,7 @@ const ApartmentModal = ({ isOpen, onClose, onSubmit }) => {
               onChange={(e) => handleChange("category", e.target.value)}
               className="w-full border px-3 py-2 rounded"
             />
-          </div>
+          </div> */}
 
           <div className="col-span-2">
             <label className="block font-medium">Description</label>
@@ -218,13 +181,11 @@ const ApartmentModal = ({ isOpen, onClose, onSubmit }) => {
             />
           </div>
         </div>
-
-        {/* Checkbox Sections */}
         <div className="mt-6">
           <h3 className="font-semibold mb-2">Amenities</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-            {amenityOptions.map((item) => (
-              <label key={item.id} className="flex items-center gap-2">
+            {amenity.map((item) => (
+              <label key={item.id} className="flex items-center gap-2  text-sm">
                 <input
                   type="checkbox"
                   checked={formData.amenities.includes(item.id)}
@@ -235,41 +196,68 @@ const ApartmentModal = ({ isOpen, onClose, onSubmit }) => {
             ))}
           </div>
         </div>
-
         <div className="mt-4">
           <h3 className="font-semibold mb-2">Facilities</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-            {facilityOptions.map((item) => (
-              <label key={item.id} className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={formData.facilities.includes(item.id)}
-                  onChange={() => handleCheckboxChange("facilities", item.id)}
-                />
-                {item.name}
-              </label>
-            ))}
+          <div className="mb-4">
+            <h6 className="font-medium mb-2 text-gray-700">Included Services</h6>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {facilty
+                .filter((item) => item.type === "included")
+                .map((item) => (
+                  <label key={item.id} className="flex items-center gap-2  text-sm">
+                    <input
+                      type="checkbox"
+                      checked={formData.facilities.includes(item.id)}
+                      onChange={() => handleCheckboxChange("facilities", item.id)}
+                    />
+                    {item.name}
+                  </label>
+                ))}
+            </div>
+          </div>
+          <div>
+            <h6 className="font-medium mb-2 text-gray-700">Additional Services</h6>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {facilty
+                .filter((item) => item.type === "additional")
+                .map((item) => (
+                  <label key={item.id} className="flex items-center gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={formData.facilities.includes(item.id)}
+                      onChange={() => handleCheckboxChange("facilities", item.id)}
+                    />
+                    {item.name}
+                  </label>
+                ))}
+            </div>
           </div>
         </div>
-
         <div className="mt-4">
           <h3 className="font-semibold mb-2">Etc Services</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-            {etcServiceOptions.map((item) => (
-              <label key={item.id} className="flex items-center gap-2">
+            {extraService.map((item) => (
+              <label key={item.id} className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
                   checked={formData.etc_service.includes(item.id)}
                   onChange={() => handleCheckboxChange("etc_service", item.id)}
                 />
-                {item.name}
+                {`${item.name}${item.unit_price ? `: ${item.unit_price}/${item.unit}` : ''}`}
               </label>
             ))}
           </div>
         </div>
-
-        {/* Submit Button */}
         <div className="mt-6 flex justify-end">
+          {/* <button
+            className="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-700"
+            onClick={() => {
+              setCreatedApartmentId(999);  // Dummy ID for testing
+              setShowImageUpload(true);
+            }}
+          >
+            Test Image Upload
+          </button> */}
           <button
             className="bg-zinc-500 text-white px-5 py-2 rounded hover:bg-zinc-700"
             onClick={handleSubmit}
@@ -278,6 +266,16 @@ const ApartmentModal = ({ isOpen, onClose, onSubmit }) => {
           </button>
         </div>
       </div>
+      {showImageUpload && apartmentFormPayload && (
+        <Fileupload
+          isOpen={showImageUpload}
+          onClose={() => {
+            setShowImageUpload(false);
+            setApartmentFormPayload(null);
+          }}
+          apartmentData={apartmentFormPayload}
+        />
+      )}
     </div>
   );
 };

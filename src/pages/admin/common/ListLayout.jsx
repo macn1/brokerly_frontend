@@ -23,14 +23,14 @@ const ListLayout = ({
     <div className="w-full px-5 mx-auto py-3">
       <div className="p-6 bg-white rounded-lg shadow">
         <div className="flex flex-col lg:flex-row justify-between items-center mb-6 gap-3 mx-5">
-       
+{/*        
           {!isVisitor && filterFields.length > 0 && (
             <div className="flex-1  ">
               <FilterComponent filterFields={filterFields} onChange={onFilterChange} />
             </div>
-          )}
+          )} */}
 
-          <div>
+          <div className=" w-full flex justify-end">
             <button
               className="px-3 text-sm  h-8 bg-zinc-700 text-white rounded hover:bg-secondary-700"
               onClick={onAddNewButton}
@@ -60,7 +60,7 @@ const ListLayout = ({
             </tr>
           </thead>
           <tbody>
-            {tableData.map((row, index) => (
+            {tableData?.map((row, index) => (
               <tr key={index} className="border-t text-xs text-gray-700  ">
                 <td className="p-3">
                   {(currentPage - 1) * pageSize + index + 1}
@@ -80,7 +80,8 @@ const ListLayout = ({
                         iconName={action.icon}
                         size={14}
                         design="text-iconintable mt-1"
-                        action={() => action.action(row)}
+                        action={() => action.onClick(row)}
+
                       />
                     ))}
                   </td>

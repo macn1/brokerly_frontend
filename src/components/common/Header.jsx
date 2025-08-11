@@ -31,7 +31,7 @@ const Header = () => {
 
       {isOpen && (
         <div className="md:hidden bg-[#030303] text-white px-4 py-2">
-          <Menu mobile />
+          <Menu mobile onLinkClick={() => setIsOpen(false)} />
         </div>
       )}
     </header>

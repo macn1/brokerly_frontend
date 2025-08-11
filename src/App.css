@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+
+.ps-menuitem-root:hover {
+  background: transparent !important;
+}
+
+
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

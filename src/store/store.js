@@ -1,19 +1,34 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { ApartmentApi } from '../store/api/apartment';
-import {AccountsAPI} from '../store/api/accounts'
+// store/store.js
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { ApartmentApi } from './api/apartment';
+import { AccountsAPI } from './api/accounts';
+import { BookingsAPI } from './api/bookings'
+import userReducer from './userSlice';
 
+const rootReducer = combineReducers({
+  [ApartmentApi.reducerPath]: ApartmentApi.reducer,
+  [AccountsAPI.reducerPath]: AccountsAPI.reducer,
+  [BookingsAPI.reducerPath]: BookingsAPI.reducer,
+
+  user: userReducer,
+});
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['user'],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    [ApartmentApi.reducerPath]: ApartmentApi.reducer,
-    [AccountsAPI.reducerPath]: AccountsAPI.reducer,
-
-    
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      ApartmentApi.middleware,
-      AccountsAPI.middleware
-   
-    ),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(ApartmentApi.middleware, AccountsAPI.middleware,BookingsAPI.middleware),
 });
+
+export const persistor = persistStore(store);

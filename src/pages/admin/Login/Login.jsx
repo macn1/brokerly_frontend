@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import logo from '../../../../src/assets/logo.png';
 import background from '../../../../src/assets/apartments/bg.png';
-
+import { setUser } from '../../../store/userSlice'
+import { useDispatch } from 'react-redux';
 import {
   storeAuthToken,
   storeUserName,
@@ -15,6 +16,7 @@ import {
 import { useLoginUserMutation } from '../../../store/api/accounts';
 
 const AdminLogin = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loginUser] = useLoginUserMutation();
@@ -45,6 +47,13 @@ const AdminLogin = () => {
       storeUserID(response.user.id);
       storeUserName(response.user.name);
       storeEmailID(response.user.email);
+      dispatch(setUser({
+        id: response.user.id,
+        userName: response.user.name,
+        email: response.user.email,
+        token: response.access,
+        role: response.user.role
+      }))
 
       navigate('/admin/dashboard');
     } catch (err) {

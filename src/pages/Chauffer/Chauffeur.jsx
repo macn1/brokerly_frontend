@@ -32,7 +32,7 @@ function Chauffeur() {
   return (
     <>
       <div className=" w-full bg-[linear-gradient(to_bottom,_#F5F3F1,_#C9BDAB)]">
-        <div className="md:flex">
+        <div className="md:flex hidden ">
           <div className="md:w-[50%]  md:h-screen h-full flex justify-center items-center text-center font-[Rufina] font-[700] mt-[120px] md:mt-0 ">
             <div className="max-w-[540px] px-4">
               <h2 className="md:text-6xl text-2xl">
@@ -85,6 +85,12 @@ function Chauffeur() {
         </div>
       </div>
       <div>
+
+      </div>
+
+
+
+      {/* <div>
         <div className="w-full md:h-screen bg-cover bg-center bg-white "  >
           <div className="flex flex-col md:flex-row  p-4">
             <div className=" md:w-[650px] md:h-[380px] w-[400px] h-[350px] flex items-center justify-center mt-32 md:px-20 md:ml-16">
@@ -102,9 +108,28 @@ function Chauffeur() {
             </div>
           </div>
         </div>
+      </div> */}
+      <div className=' flex  md:flex-row flex-col md:py-16 md:px-40 gap-6'  >
+        <div className='md:w-[50%]'>
+          <img
+            src={aboutus}
+            alt="Scenic View"
+            className="w-[614px] h-[600px] md:h-[400px] object-cover rounded-br-[80px] "
+          />
+
+        </div>
+
+        <div className=' md:w-[50%] px-4 py-5'>
+          <h2 className='md:text-4xl text-2xl text-center font-[Rufina] font-[700]'>AJ Hospitality Chauffeur Services</h2>
+          <p className='font-[Raleway] px-2 md:px-0 mt-5 md:mt-10 text-[#181D24]'> Take the hassle out of your travels by letting AJ Hospitality Chauffeur Services drive you to your destination in comfort. Sit back and enjoy a smooth and stress- free ride in our Luxury four seater Sadan, or our comfortable six seater MPV. </p>
+          <p className='font-[Raleway] px-2 md:px-0 mt-5 md:mt-10 text-[#181D24]'>Our Chauffeurs are highly trained and experienced, who prioritize in safety and customer service.</p>
+
+
+        </div>
+
       </div>
       <div className='bg-white h-full'>
-        <h2 className='text-6xl text-center font-[Rufina] font-[700]'>Our Services Include</h2>
+        <h2 className='md:text-6xl text-3xl text-center font-[Rufina] font-[700]'>Our Services Include</h2>
         <section className="py-12 px-4 max-w-6xl mx-auto">
           <div className="grid gap-8 md:grid-cols-2">
             {services.map((service, index) => (
@@ -115,7 +140,6 @@ function Chauffeur() {
                     alt={service.title}
                     className="w-full h-full object-cover"
                   />
-                  {/* <div className="absolute bottom-14 right-0 w-[50px] h-[50px] bg-white overflow-hidden rounded-br-full z-30"></div> */}
                 </div>
                 <div className="bg-white p-6 pt-10 rounded-tl-[50px] z-30 relative -mt-[50px]">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2 font-serif">

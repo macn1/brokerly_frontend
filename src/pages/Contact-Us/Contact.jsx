@@ -29,33 +29,33 @@ function Contact() {
   return (
     <>
       <div className="w-full md:h-full h-screen bg-cover bg-center " style={{ backgroundImage: `url(${blur})` }}>
-        <div className=' h-64 flex justify-center items-end '>
-          <div className='text-center '>
-            <h1 className='text-5xl  font-[Rufina] font-[700] text-[#181D24] '>
+        <div className=' md:h-64  h-44 flex justify-center items-end  '>
+          <div className='text-center w-[100%]  '>
+            <h1 className='text-3xl w-full  md:text-5xl  font-[Rufina] font-[700] text-[#181D24] '>
               Contact Us
             </h1>
-            <p className='mt-5  text-[16px] font-[Raleway] text-[#181D24] max-w-[410px] md:max-w-full '>
+            <p className='md:mt-5 mt-1  text-[13px] md:text-[16px] font-[Raleway] text-[#181D24] max-w-[510px] md:max-w-full '>
               We're always here to answer your questions. <br />
               Reach out and we'll get back to you as soon as possible.
             </p>
           </div>
         </div>
-        <div className=' w-full  md:flex justify-center md:px-44 px-10 mt-5 mb-10'>
-          <div className='bg-[#F5F3F1]  h-[50%] md:h-[340px] md:w-[55%] w-full rounded-tl-[60px] '>
+        <div className='  w-full md:flex justify-center md:px-44 px-5 mt-5 mb-10 md:py-10 py-5'>
+          <div className='bg-[]  h-[40%] md:h-[340px] md:w-[55%] w-full rounded-tl-[60px] '>
             <img
               src={aboutus}
               alt="Scenic View"
-              className="w-[550px] h-96 md:h-full rounded-tl-[60px]  md:rounded-bl-[60px] md:rounded-tl-none "
+              className="w-[550px] h-[280px] md:h-full rounded-tl-[60px]  md:rounded-bl-[60px] md:rounded-tl-none "
             />
           </div>
-          <div className='bg-white md:h-[340px] w-full md:w-[65%] flex flex-col md:rounded-tr-[60px] rounded-br-[60px] md:rounded-br-none '>
-            <div className='md:px-24 text-center '>
+          <div className='bg-white shadow-2xl  md:h-[340px] w-full md:w-[65%] flex flex-col md:rounded-tr-[60px] rounded-br-[60px] md:rounded-br-none '>
+            <div className='md:px-16 md:py-20 py-9 text-center '>
               <div className=''>
-                <h2 className='text-4xl font-[Rufina] font-[700] text-[#181D24]  py-10 '>Connect with us</h2>
+                <h2 className='text-4xl font-[Rufina] font-[700] text-[#181D24] '>Connect with us</h2>
                 <div className='md:px-2 px-16'>
                   <div className=' flex justify-between '>
-                    <div className=" w-[30%] flex font-[Rufina] font-semibold mt-2">Phone</div>
-                    <div className=" flex justify-start items-start w-[70%] font-[Rufina] mt-2"><span className='text-sm'> +91 9112195999</span></div>
+                    <div className="  w-[30%] flex font-[Rufina] font-semibold mt-2">Phone</div>
+                    <div className="  flex justify-start items-start w-[70%] font-[Rufina] mt-2"><span className='text-sm'> +91 9112195999</span></div>
                   </div>
                   <div className=' flex justify-between'>
                     <div className=" w-[30%] flex font-[Rufina] font-semibold mt-2">Email</div>
@@ -70,7 +70,7 @@ function Contact() {
                     </div>
                   </div>
                 </div>
-                <div className='flex gap-2 md:px-3 px-16 mt-10 mb-3 '>
+                <div className='flex gap-2 md:px-3 px-16 py-3 mt-3 md:mt-10 mb-3 '>
                   <img src={faacebbok} alt="fb" className='w-5 h-5' />
                   <img src={whatsapp} alt="fb" className='w-5 h-5' />
                   <img src={ytb} alt="fb" className='w-5 h-5' />
@@ -83,9 +83,9 @@ function Contact() {
         </div>
 
       </div>
-      <div className='h-full w-full bg-[#FFFFFF00]'>
+      <div className='h-full w-full bg-[#FFFFFF00] md:px-24 py-10 md:py-0'>
         <div className='text-center md:mt-32 mt-5 font-[Rufina] font-[700] '>
-          <h2 className='text-5xl'>Frequently asked questions</h2>
+          <h2 className='text-3xl w-full  md:text-5xl  font-[Rufina] font-[700] text-[#181D24] px-4'>Frequently asked questions</h2>
           <p className='mt-8 md:font-[Raleway] md:px-0 px-6'>Everything you need to know about the product and billing.</p>
         </div>
         <div className="max-w-6xl mx-auto px-6 py-8">

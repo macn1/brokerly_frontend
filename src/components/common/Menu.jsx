@@ -16,7 +16,7 @@ const links = [
   { name: "F&B", path: "/fnb", icon: <FaUtensils /> },
   { name: "Shop", path: "/shop", icon: <FaShoppingBag /> },
 ];
-const Menu = ({ mobile = false }) => {
+const Menu = ({ mobile = false , onLinkClick = () => {}  }) => {
   return (
     <nav
       className={`${
@@ -27,6 +27,7 @@ const Menu = ({ mobile = false }) => {
         <NavLink
           key={name}
           to={path}
+           onClick={onLinkClick}
           className={({ isActive }) =>
             `flex items-center gap-2 px-2 py-1 transition ${
               isActive ? "text-yellow-400" : "text-white hover:text-yellow-300"
