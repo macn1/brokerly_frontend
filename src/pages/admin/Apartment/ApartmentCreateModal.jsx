@@ -4,6 +4,8 @@ import { useGetAllApartmentAmenityQuery, useCreateApartmentMutation } from "../.
 import Fileupload from '../common/Fileupload'
 const ApartmentModal = ({ isOpen, onClose, onSubmit, amenity, facilty, extraService }) => {
   const [createdApartmentId, setCreatedApartmentId] = useState(null);
+  console.log(amenity,"amenity");
+  
   const [showImageUpload, setShowImageUpload] = useState(false);
   console.log(createdApartmentId, "createdApartmentId#12345");
   const [apartmentFormPayload, setApartmentFormPayload] = useState(null);

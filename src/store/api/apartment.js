@@ -31,8 +31,8 @@ export const ApartmentApi = createApi({
         getAllAmenity: builder.query({
             query: () => `/apartments/room-amenity`,
         }),
-        getAllapartmentAmenity: builder.query({
-            query: () => `/apartments/amenity`,
+        getAllamenities: builder.query({
+            query: () => `/apartments/amenities`,
         }),
         getApartmentById: builder.query({
             query: (id) => `/apartments/apartment/${id}`,
@@ -148,5 +148,5 @@ export const ApartmentApi = createApi({
     })
 });
 
-export const { useDeleteApartmentExtraerviceMutation, useDeleteApartmentFacilitiesMutation, useCreateExtraserviceMutation, useGetAllPagiantedapartmentsExtraserviceQuery, useCreateApartmentFacilityMutation, useGetAllPaginatedApartmentFacilitiesQuery, useCreateApartmentAmenityMutation, useDeleteApartmentAmenityMutation, useUploadApartmentImagesMutation, useApartmentDetailQuery, useDeleteApartmentMutation, useGetAllAmenityQuery, useGetAllapartmentAmenityQuery, useGetApartmentByIdQuery, useGetAllApartmentsQuery, useGetAllApartmentAmenityQuery, useCreateApartmentMutation, useGetAllApartmentFacilitiesQuery, useGetAllapartmentsExtraserviceQuery
+export const {useGetAllamenitiesQuery, useDeleteApartmentExtraerviceMutation, useDeleteApartmentFacilitiesMutation, useCreateExtraserviceMutation, useGetAllPagiantedapartmentsExtraserviceQuery, useCreateApartmentFacilityMutation, useGetAllPaginatedApartmentFacilitiesQuery, useCreateApartmentAmenityMutation, useDeleteApartmentAmenityMutation, useUploadApartmentImagesMutation, useApartmentDetailQuery, useDeleteApartmentMutation, useGetAllAmenityQuery, useGetAllapartmentAmenityQuery, useGetApartmentByIdQuery, useGetAllApartmentsQuery, useGetAllApartmentAmenityQuery, useCreateApartmentMutation, useGetAllApartmentFacilitiesQuery, useGetAllapartmentsExtraserviceQuery
 } = ApartmentApi;

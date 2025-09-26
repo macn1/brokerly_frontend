@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ListLayout from "../common/ListLayout";
 import ApartmentModal from './ApartmentCreateModal'
-import { useGetAllApartmentsQuery, useGetAllApartmentAmenityQuery, useGetAllApartmentFacilitiesQuery, useGetAllapartmentsExtraserviceQuery, useDeleteApartmentMutation } from '../../../store/api/apartment'
+import {useGetAllamenitiesQuery, useGetAllApartmentsQuery, useGetAllApartmentAmenityQuery, useGetAllApartmentFacilitiesQuery, useGetAllapartmentsExtraserviceQuery, useDeleteApartmentMutation } from '../../../store/api/apartment'
 import ApartmentDetailModal from './ApartmentDetail'
 const List = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -15,13 +15,14 @@ const List = () => {
     const [count, setCount] = useState(10);
     const [filters, setFilters] = useState({});
     const [tableData, setTableData] = useState([]);
-
+    console.log(amenity,"amenity");
+    
     const handleAddApartment = (formData) => {
         console.log("Form submitted with:", formData);
         setIsModalOpen(false);
     };
 
-    const { data: ammenitydata } = useGetAllApartmentAmenityQuery()
+    const { data: ammenitydata } = useGetAllamenitiesQuery()
 
     const { data: extraService } = useGetAllapartmentsExtraserviceQuery()
 
@@ -46,7 +47,7 @@ const List = () => {
     }, [ApartmentsData])
     useEffect(() => {
         if (ammenitydata) {
-            setAmenity(ammenitydata.results)
+            setAmenity(ammenitydata)
         }
 
     }, [ammenitydata])

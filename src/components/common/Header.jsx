@@ -8,12 +8,12 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full z-50 fixed top-0 left-0 bg-[#03030380] text-white">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 py-4">
-        <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="AJP Logo" className="h-10 w-10 md:h-[60px] md:w-[60px]" />
+    <header className="w-full z-50 fixed top-0 left-0 bg-[#181D24] text-white">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 md:py-3 py-4">
+        <Link to="/" className="flex items-center gap-5">
+          <img src={logo} alt="AJP Logo" className="h-10 w-10 md:h-[40px] md:w-[40px]" />
           <span className="font-medium text-base md:text-[12px] tracking-[3px] md:tracking-[6px] uppercase text-[#F5F3F1]" style={{ fontFamily: 'Raleway' }}>
-            AJP GROUP
+          
           </span>
         </Link>
 

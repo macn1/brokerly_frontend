@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { useCreateContactMutation } from "../../store/api/bookings"; // Update the path as needed
+import { useCreateContactMutation } from "../../store/api/bookings";
 
 import LetsConnectLandscapeImg from "../../assets/lets_connect_landscape.png";
-import LetsConnectVerticalImg from "../../assets/lets_connect_vertical.png";
+import footer from "../../assets/footer.jpg";
+import mobilefooter from "../../assets/mobilefoot.jpg";
+
 import faacebbok from '../../assets/icons/facebook.png';
 import whatsapp from '../../assets/icons/whatsapp.png';
 import ytb from '../../assets/icons/ytb.png';
@@ -50,7 +52,7 @@ const Footer = () => {
     <footer className="relative">
       <div
         className="hidden md:block w-full bg-cover bg-center bg-no-repeat relative"
-        style={{ backgroundImage: `url(${LetsConnectLandscapeImg})` }}
+        style={{ backgroundImage: `url(${footer})` }}
       >
         <div className="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row gap-6 lg:gap-10 relative lg:py-32 top-[600px] md:top-[350px]">
           <div className="bg-[#181D24] text-white p-4 rounded-tr-[40px] lg:rounded-tr-[80px] w-full lg:w-[350px] flex flex-col items-center text-center shadow-lg">
@@ -59,9 +61,9 @@ const Footer = () => {
             </h2>
             <div className="grid grid-cols-2 gap-y-4 max-w-[286px] text-left text-[8px] md:text-[9px] lg:text-[12px] mt-12 px-10">
               <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>Phone</h4>
-              <p style={{ fontFamily: "Raleway" }}>+91 9138295999</p>
+              <p style={{ fontFamily: "Raleway" }}>+91 8421571429</p>
               <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>Email</h4>
-              <p style={{ fontFamily: "Raleway" }}>info@ajpgroup.com</p>
+              <p style={{ fontFamily: "Raleway" }}>hospitality@ajpgroup.com</p>
               <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>Address</h4>
               <p className="col-span-1 leading-relaxed" style={{ fontFamily: "Raleway" }}>
                 S No 219/2/1B/1, Burhani Industrial Estate,<br />
@@ -74,8 +76,6 @@ const Footer = () => {
               </div>
             </div>
           </div>
-
-          {/* Contact Form */}
           <div className="bg-white p-4 lg:p-6 w-full lg:w-[600px] rounded-br-[40px] lg:rounded-br-[80px] shadow-md">
             <h2 className="text-[20px] md:text-[28px] mt-10 text-center lg:text-left md:px-5 font-semibold mb-6 text-[#181D24]" style={{ fontFamily: "Rufina" }}>
               We’d love to hear from you
@@ -100,40 +100,24 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="block md:hidden relative bg-[#DFE3E7]" >
+      <div className="block md:hidden relative bg-[#DFE3E7]">
         <div
-          className=" w-full  bg-no-repeat bg-cover bg-right h-[600px]"
-          style={{ backgroundImage: `url(${LetsConnectLandscapeImg})`,backgroundPosition: "75% center", }}
+          className="absolute inset-0 w-full h-full bg-no-repeat bg-cover bg-right"
+          style={{
+            backgroundImage: `url(${mobilefooter})`,
+            backgroundPosition: "75% center",
+          }}
         />
-        <div className="relative  z-10 px-2 -mt-[200px] ">
-          <div className="  max-w-7xl mx-auto px-4 flex flex-col gap-6 relative z-20 ">
-            <div className="bg-[#181D24] text-white p-8 rounded-tr-[40px] shadow-lg text-center">
-              <h2 className="font-bold mb-6 text-[28px]" style={{ fontFamily: "Rufina", color: "#F5E9D6" }}>
-                Reservation’s
-              </h2>
-              <div className="grid grid-cols-2 gap-y-4 w-full max-w-[336px] text-left text-[13px] mx-auto">
-                <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>Phone</h4>
-                <p style={{ fontFamily: "Raleway" }}>+91 9138295999</p>
-                <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>Email</h4>
-                <p style={{ fontFamily: "Raleway" }}>info@ajpgroup.com</p>
-                <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>Address</h4>
-                <p className="col-span-2 leading-relaxed" style={{ fontFamily: "Raleway" }}>
-                  S No 219/2/1B/1, Burhani Industrial Estate,<br />
-                  Kondhwa Budruk, Pune, Maharashtra 411048
-                </p>
-                <div className="flex gap-4 mt-3 mb-3 col-span-2 justify-center">
-                  <img src={faacebbok} alt="fb" className='w-5 h-5' />
-                  <img src={whatsapp} alt="wa" className='w-5 h-5' />
-                  <img src={ytb} alt="yt" className='w-5 h-5' />
-                  <img src={figma} alt="fig" className='w-5 h-5' />
-                  <img src={net} alt="net" className='w-5 h-5' />
-                </div>
-              </div>
-            </div>
+        <div className="relative z-10 px-2 py-10">
+          <div className="max-w-7xl mx-auto px-4 flex flex-col gap-6">
 
-            {/* Contact Form */}
+
+
             <div className="bg-white p-6 rounded-br-[40px] shadow-md">
-              <h2 className="text-[24px] text-center font-semibold mb-6 text-[#181D24]" style={{ fontFamily: "Rufina" }}>
+              <h2
+                className="text-[24px] text-center font-semibold mb-6 text-[#181D24]"
+                style={{ fontFamily: "Rufina" }}
+              >
                 We’d love to hear from you
               </h2>
               <form className="space-y-4" onSubmit={handleSubmit}>
@@ -164,7 +148,10 @@ const Footer = () => {
                   className="w-full border-b border-gray-300 bg-transparent outline-none py-2 resize-none placeholder-[#5B656F]"
                   style={{ fontFamily: "Raleway", fontWeight: 500 }}
                 />
-                <label className="text-sm" style={{ fontFamily: "Raleway", fontWeight: 400 }}>
+                <label
+                  className="text-sm"
+                  style={{ fontFamily: "Raleway", fontWeight: 400 }}
+                >
                   <input
                     name="termsandcondition"
                     type="checkbox"
@@ -187,6 +174,42 @@ const Footer = () => {
                 </button>
               </form>
             </div>
+            <div className="bg-[#181D24] text-white p-8 rounded-tr-[40px] shadow-lg text-center">
+              <h2
+                className="font-bold mb-6 text-[28px]"
+                style={{ fontFamily: "Rufina", color: "#F5E9D6" }}
+              >
+                Reservation’s
+              </h2>
+              <div className="grid grid-cols-2 gap-y-4 w-full max-w-[336px] text-left text-[13px] mx-auto">
+                <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>
+                  Phone
+                </h4>
+                <p style={{ fontFamily: "Raleway" }}> +91 8421571429</p>
+                <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>
+                  Email
+                </h4>
+                <p style={{ fontFamily: "Raleway" }}>hospitality@ajpgroup.com</p>
+                <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>
+                  Address
+                </h4>
+                <p
+                  className="col-span-2 leading-relaxed"
+                  style={{ fontFamily: "Raleway" }}
+                >
+                  Block-2, Kingston Atlantis, Shankarrao Madhukar Ghule Patil Rd
+                  <br />
+                  Mohammed Wadi, Pune, Maharashtra 411060
+                </p>
+                <div className="flex gap-4 mt-3 mb-3 col-span-2 justify-center">
+                  <img src={faacebbok} alt="fb" className="w-5 h-5" />
+                  <img src={whatsapp} alt="wa" className="w-5 h-5" />
+                  <img src={ytb} alt="yt" className="w-5 h-5" />
+                  <img src={figma} alt="fig" className="w-5 h-5" />
+                  <img src={net} alt="net" className="w-5 h-5" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -204,9 +227,7 @@ const Footer = () => {
             </div>
 
             <p className="text-[#5B656F] text-sm leading-relaxed mt-5" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
-              We are a lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            </p>
+Registered Partnership LLP Company. All rights reserved. Please note our terms and conditions mentioned herein            </p>
           </div>
 
           <div className="flex flex-col gap-2 ml-0 md:ml-0 lg:ml-[170px] md:mt-10">
@@ -214,14 +235,14 @@ const Footer = () => {
               Connect with us
             </h4>
             <p className="text-sm text-[#181D24]" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
-              +91 9138295999
+              +91 8421571429
             </p>
             <a
               href="mailto:info@ajpgroup.com"
               className="text-sm text-[#181D24] underline"
               style={{ fontFamily: 'Raleway', fontWeight: 400 }}
             >
-              info@ajpgroup.com
+              hospitality@ajpgroup.com
             </a>
             <div className='flex gap-4 md:px- mt-3   mb-3 '>
               <img src={faacebbok} alt="fb" className='w-5 h-5' />
@@ -233,7 +254,7 @@ const Footer = () => {
             <div className="flex gap-6">
               <h3 onClick={() => { navigate('/terms-and-condition') }}>Terms</h3>
               <h3>Privacy</h3>
-              <h3  onClick={() => { navigate('/contact-us') }}>Contact</h3>
+              <h3 onClick={() => { navigate('/contact-us') }}>Contact</h3>
             </div>
             <p className="text-[12px] text-[#5B656F] mt-2" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
               AJP GROUPS | © All rights reserved 2022–2023

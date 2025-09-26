@@ -17,7 +17,7 @@ const Home = () => {
     <>
       <section className="bg-[#F5F3F1] mb-5">
         <div
-          className="min-h-[100svh] bg-cover bg-center relative rounded-br-[40px] md:rounded-br-[100px]"
+          className="min-h-[100svh] bg-cover bg-center relative  "
           style={{ backgroundImage: `url(${Landing})` }}
         >
           <div
@@ -26,7 +26,7 @@ const Home = () => {
               background: "radial-gradient(50% 50% at 50% 50%, rgba(18, 38, 52, 0.4) 0%, rgba(18, 38, 52, 0) 100%)",
             }}
           >
-            <h3
+            <h1
               className="font-thin md:font-semibold text-xl text-[#181D24] animate-slide-up"
               style={{
                 textShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
@@ -34,7 +34,7 @@ const Home = () => {
               }}
             >
               A TAILOR-MADE STAY, MEETINGS YOUR NEEDS
-            </h3>
+            </h1>
           </div>
         </div>
       </section>

@@ -7,6 +7,105 @@
   background: transparent !important;
 }
 
+/* Background slides from bottom */
+@keyframes bgSlideUp {
+  0% {
+    transform: translateY(100vh);
+    /* start off-screen at bottom */
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-bgSlideUp {
+  animation: bgSlideUp 1s ease-in-out forwards;
+  /* duration 1s */
+}
+
+
+
+@keyframes slideInStay {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-h1 {
+  opacity: 0;
+  animation: slideInStay 1s ease-out forwards;
+  animation-delay: 1s; /* wait until bg animation finishes */
+}
+
+/* H2 and Button fade/slide in */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-h2,
+.animate-btn {
+  opacity: 0;
+  animation: fadeSlideUp 1s ease-out forwards;
+}
+
+.animate-h2 {
+  animation-delay: 2.2s; /* after h1 finishes */
+}
+
+.animate-btn {
+  animation-delay: 2.7s;
+}
+
+/* Text slides up after bg animation */
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 1s ease-out forwards;
+  animation-delay: 1s;
+  /* wait until bg animation finishes */
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(1.05);
+    /* subtle zoom */
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1.2s ease-in-out 0.04s forwards;
+}
 
 
 
@@ -40,10 +139,12 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 .nothover.ps-menu-button:hover {
   background-color: transparent !important;
   color: inherit !important;

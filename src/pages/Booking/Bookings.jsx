@@ -13,9 +13,11 @@ const Bookings = () => {
         window.scrollTo(0, 0);
     }, []);
     const location = useLocation();
-    const { apartmentName, location: address, checkIn, setCheckIn, checkOut, setCheckOut } = location.state || {};
-
-    console.log(apartmentName, "apartmentName", checkIn, location);
+    const { apartmentName, location: address, checkIn, setCheckIn, checkOut, setCheckOut, main,price } = location.state || {};
+    const baseUrl = process.env.REACT_APP_API_URL.replace("/api", "");
+    console.log(main, price,price,
+        "apartmen12t"
+    );
     const [openSection, setOpenSection] = useState(1);
     const toggleSection = (section) => setOpenSection((prev) => (prev === section ? null : section));
     const countries = [
@@ -186,6 +188,9 @@ const Bookings = () => {
                                                 "Transportation",
                                                 "Nurse/Doctor Visits",
                                                 "Visa Assistance",
+                                                "Visa Assistance",
+                                                "Cultural Tour",
+                                                "Dental",
                                             ].map((service, index) => (
                                                 <label key={index} className="flex items-center gap-2">
                                                     <input
@@ -295,34 +300,12 @@ const Bookings = () => {
                         {openSection === 3 && (
                             <div className="px-6 pb-6">
                                 <div className="space-y-10 text-[#181D24] text-sm">
+
                                     <section>
-                                        <h2 className="text-lg font-bold mb-4">Information</h2>
-                                        <ul className="space-y-2 list-disc list-inside">
-                                            <li>Name / Address / Tel / Mobile</li>
-                                            <li>Purpose Of Visit</li>
-                                            <li>Are you coming alone (If No, Specify)</li>
-                                            <li>Duration of stay (Minimum 7 days)</li>
-                                            <li>
-                                                Services Required (Tick):
-                                                <ul className="list-disc list-inside ml-5">
-                                                    <li>Wheelchair / Special Assistance</li>
-                                                    <li>Special Diet</li>
-                                                    <li>Transportation</li>
-                                                    <li>Nurse/Doctor Visits</li>
-                                                    <li>Visa Assistance</li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                        <p className="mt-4 text-sm text-green-600 font-medium">
-                                            Thank you, a member of our team will touch base with you
-                                            shortly.
-                                        </p>
-                                    </section>
-                                    <section>
-                                        <h2 className="text-lg font-bold mb-4">
+                                        <h2 className="text-base font-bold mb-4 font-[Raleway]">
                                             Legal & Cancellation Policy
                                         </h2>
-                                        <ol className="list-decimal list-inside space-y-2">
+                                        <ol className="list-decimal list-inside space-y-2 font-[Rufina]">
                                             <li>
                                                 An agreement known as a Leave and Licence agreement will
                                                 need to be signed by the guest upon arrival. The licence
@@ -357,50 +340,56 @@ const Bookings = () => {
                                         </ol>
                                     </section>
                                     <section>
-                                        <h2 className="text-lg font-bold mb-4">
-                                            Details About Apartments – Lodha
+                                        <h2 className="text-base font-bold mb-4 font-[Raleway]">
+                                            Details About  Kingston-Apartments
+
                                         </h2>
-                                        <ul className="list-disc list-inside space-y-2">
+                                        <ul className="list-disc list-inside space-y-2 font-[Rufina]">
                                             <li>
-                                                Living area with balcony and remote controlled A/C and fan
+                                                3 Bed Rooms
                                             </li>
-                                            <li>Dining table with four chairs</li>
+                                            <li>OTT TV with cabinet and free WiFi</li>
                                             <li>Sofa for 3 people</li>
-                                            <li>65” TV with cabinet and free WiFi</li>
                                             <li>Ambient lighting and ceiling spotlights</li>
                                             <li>
                                                 OneTouch 7” security screen & CCTV inside and outside door
                                             </li>
-                                            <li>2 bedrooms with A/C, fans, wardrobes</li>
-                                            <li>Master bedroom with en suite bathroom</li>
-                                            <li>Second bathroom with shower and toilet</li>
+
                                             <li>
-                                                Kitchen with water purifier, fridge, dishwasher, toaster,
-                                                air fryer, utensils
+                                                Fully Fitted Kitchen
+
                                             </li>
-                                            <li>Dry balcony with washing machine</li>
+                                            <li>3 Bathrooms
+                                            </li>
                                             <li>8-hour power backup</li>
                                         </ul>
                                     </section>
                                     <section>
-                                        <h2 className="text-lg font-bold mb-4">
-                                            Details About Apartments – Kingston
+                                        <h2 className="text-base font-bold mb-4 font-[Raleway]">
+                                            Details About  Lodha-Apartments
                                         </h2>
-                                        <ul className="list-disc list-inside space-y-2">
-                                            <li>Living area with A/C and balcony</li>
-                                            <li>Reclining sofas (3-seater and 2-seater)</li>
-                                            <li>Dining table with four chairs</li>
-                                            <li>70” TV with cabinet and free WiFi</li>
-                                            <li>Ambient lighting and spotlights</li>
-                                            <li>CCTV inside and outside entrance</li>
-                                            <li>2 bedrooms with A/C, fans, wardrobes</li>
-                                            <li>Master bedroom with en suite bathroom</li>
-                                            <li>Second bathroom with shower and toilet</li>
+                                        <ul className="list-disc list-inside space-y-2 font-[Rufina]">
+                                            <li>
+                                                2 Bed Rooms
+                                            </li>
+                                            <li>OTT TV with cabinet and free WiFi</li>
+                                            <li>Sofa for 3 people</li>
+                                            <li>Ambient lighting and ceiling spotlights</li>
+                                            <li>
+                                                OneTouch 7” security screen & CCTV inside and outside door
+                                            </li>
+
+                                            <li>
+                                                Fully Fitted Kitchen
+
+                                            </li>
+                                            <li>2 Bathrooms
+                                            </li>
                                             <li>8-hour power backup</li>
                                         </ul>
                                     </section>
                                     <section>
-                                        <h2 className="text-lg font-bold mb-4">
+                                        <h2 className="text-base font-bold mb-4 font-[Raleway]">
                                             Amenities Inside the Society
                                         </h2>
                                         <p className="text-red-600">
@@ -410,13 +399,13 @@ const Bookings = () => {
                                         </p>
                                     </section>
                                     <section>
-                                        <h2 className="text-lg font-bold mb-4">Chauffeur Services</h2>
-                                        <p>
+                                        <h2 className="text-base font-bold mb-4 font-[Raleway]">Chauffeur Services</h2>
+                                        <p className="font-[Rufina]">
                                             Enjoy a stress-free ride in our luxury 4-seater sedan or
                                             6-seater MPV. Our highly trained chauffeurs ensure comfort
                                             and safety.
                                         </p>
-                                        <ul className="list-disc list-inside ml-4 space-y-1 mt-2">
+                                        <ul className="list-disc list-inside ml-4 space-y-1 mt-2 font-[Rufina]">
                                             <li>Airport Transfers / Pick Ups</li>
                                             <li>Corporate Travel for executives and meetings</li>
                                             <li>Special Events: weddings, birthdays, etc.</li>
@@ -426,7 +415,7 @@ const Bookings = () => {
                                             <p>
                                                 <strong>Rates:</strong>
                                             </p>
-                                            <ul className="list-disc list-inside ml-4">
+                                            <ul className="list-disc list-inside ml-4 font-[Rufina]">
                                                 <li>Luxury 4-seater sedan – $188/hour</li>
                                                 <li>Comfortable 6-seater MPV – $158/hour</li>
                                             </ul>
@@ -438,7 +427,16 @@ const Bookings = () => {
                     </div>
                 </div>
                 <div className="border rounded-lg shadow-sm p-4 sm:p-6">
-                    <img src={booking_process} alt="Apartment" className="w-full h-[220px] sm:h-[260px] object-cover rounded-md mb-4" />
+                    <img
+                        src={
+                            main?.find((img) => img.sequence === "1")?.image
+                                ? `${baseUrl}${main.find((img) => img.sequence === "2")?.image}`
+                                : "/placeholder.jpg"
+                        }
+                        alt="Apartment"
+                        className="w-full h-[220px] sm:h-[260px] object-cover rounded-md mb-4"
+                    />
+
                     <h4 className="text-lg sm:text-xl font-semibold mb-1 text-[#484848]" style={{ fontFamily: "Raleway", fontWeight: "600" }}>{apartmentName}</h4>
                     <p className="text-[#6C6B6B] mb-3 flex items-center gap-1 text-[13px] md:text-[14px]" style={{ fontFamily: "Raleway", fontWeight: "600" }}>
                         <FiMapPin className="h-4 w-4" /> {address}
@@ -459,18 +457,53 @@ const Bookings = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="text-sm space-y-2 mt-4">
-                        <p className="font-semibold text-[#484848]" style={{ fontFamily: "Raleway", fontWeight: "600" }}>Price Details:</p>
-                        <p style={{ fontFamily: "Raleway", fontWeight: "400" }}>Monthly (for 1 Person): <span className="float-right text-[#484848]"
-                            style={{ fontFamily: "Raleway", fontWeight: "400" }}>€4950</span></p>
-                        <p style={{ fontFamily: "Raleway", fontWeight: "400" }}>Bills: <span className="float-right text-[#484848]"
-                            style={{ fontFamily: "Raleway", fontWeight: "400" }}>30-40€</span></p>
-                        <p style={{ fontFamily: "Raleway", fontWeight: "400" }}>Fee: <span className="float-right text-[#484848]"
-                            style={{ fontFamily: "Raleway", fontWeight: "400" }}>75€</span></p>
-                        <hr />
-                        <p className="font-bold" style={{ fontFamily: "Raleway", fontWeight: "600" }}>Total: <span className="float-right text-[#484848]"
-                            style={{ fontFamily: "Raleway", fontWeight: "600" }}>1600€</span></p>
-                    </div>
+                  <div className="text-sm space-y-2 mt-4">
+  <p
+    className="font-semibold text-[#484848]"
+    style={{ fontFamily: "Raleway", fontWeight: "600" }}
+  >
+    Price Details:
+  </p>
+
+  {/* Apartment Price */}
+  <p style={{ fontFamily: "Raleway", fontWeight: "400" }}>
+    Apartment Price:{" "}
+    <span
+      className="float-right text-[#484848]"
+      style={{ fontFamily: "Raleway", fontWeight: "400" }}
+    >
+      ₹{price}
+    </span>
+  </p>
+
+  {/* Security Deposit */}
+  <p style={{ fontFamily: "Raleway", fontWeight: "400" }}>
+    Security Deposit:{" "}
+    <span
+      className="float-right text-[#484848]"
+      style={{ fontFamily: "Raleway", fontWeight: "400" }}
+    >
+      ₹48,000
+    </span>
+  </p>
+  <p className="text-xs text-gray-500 ml-2" style={{ fontFamily: "Raleway" }}>
+  ( Security deposit is refundable)
+  </p>
+  <hr />
+  <p
+    className="font-bold"
+    style={{ fontFamily: "Raleway", fontWeight: "600" }}
+  >
+    Total:{" "}
+    <span
+      className="float-right text-[#484848]"
+      style={{ fontFamily: "Raleway", fontWeight: "600" }}
+    >
+      ₹{Number(price) + 48000}
+    </span>
+  </p>
+</div>
+
                 </div>
             </div>
         </div>

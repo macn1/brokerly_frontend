@@ -9,6 +9,7 @@ import net from "../../assets/icons/net.png";
 import logo from "../../assets/logo.png";
 import { useCreateContactMutation } from "../../store/api/bookings";
 import { useNavigate } from "react-router-dom";
+import mobilefooter from "../../assets/mobilefoot.jpg";
 
 const Footer = () => {
     const [createContact] = useCreateContactMutation();
@@ -48,9 +49,9 @@ const Footer = () => {
     return (
         <footer className="h-screen flex flex-col">
 
-            <div className="h-[800px] bg-[] flex items-center">
-                <div className="max-w-7xl mx-auto px-4 w-full md:px-[55px]">
-                    <div className="bg-white p-6 rounded-br-[40px] shadow-2xl mb-10">
+            <div className="hidden h-[800px] bg-[#F5E9D6] md:flex items-center mt-">
+                {/* <div className="max-w-7xl mx-auto px-4 w-full md:px-[55px]">
+                    <div className="bg-white p-6 rounded-br-[40px] shadow-2xl  -mb-12 relative z-20">
                         <h2
                             className="text-[24px] text-center font-semibold mb-6 text-[#181D24]"
                             style={{ fontFamily: "Rufina" }}
@@ -116,9 +117,122 @@ const Footer = () => {
                                 </button>
                             </div>
                         </form>
-                    </div>
-                </div>
+                     </div>
+                </div> */}
             </div>
+            <div className="block md:hidden relative bg-[#DFE3E7]">
+                    <div
+                      className="absolute inset-0 w-full h-full bg-no-repeat bg-cover bg-right"
+                      style={{
+                        backgroundImage: `url(${mobilefooter})`,
+                        backgroundPosition: "75% center",
+                      }}
+                    />
+                    <div className="relative z-10 px-2 py-10">
+                      <div className="max-w-7xl mx-auto px-4 flex flex-col gap-6">
+            
+            
+            
+                        <div className="bg-white p-6 rounded-br-[40px] shadow-md">
+                          <h2
+                            className="text-[24px] text-center font-semibold mb-6 text-[#181D24]"
+                            style={{ fontFamily: "Rufina" }}
+                          >
+                            We’d love to hear from you
+                          </h2>
+                          <form className="space-y-4" onSubmit={handleSubmit}>
+                            <input
+                              name="name"
+                              value={formData.name}
+                              onChange={handleChange}
+                              type="text"
+                              placeholder="Your Name"
+                              className="w-full border-b border-gray-300 bg-transparent outline-none py-2 placeholder-[#5B656F]"
+                              style={{ fontFamily: "Raleway", fontWeight: 500 }}
+                            />
+                            <input
+                              name="email"
+                              value={formData.email}
+                              onChange={handleChange}
+                              type="email"
+                              placeholder="Email"
+                              className="w-full border-b border-gray-300 bg-transparent outline-none py-2 placeholder-[#5B656F]"
+                              style={{ fontFamily: "Raleway", fontWeight: 500 }}
+                            />
+                            <textarea
+                              name="message"
+                              value={formData.message}
+                              onChange={handleChange}
+                              placeholder="Message"
+                              rows={4}
+                              className="w-full border-b border-gray-300 bg-transparent outline-none py-2 resize-none placeholder-[#5B656F]"
+                              style={{ fontFamily: "Raleway", fontWeight: 500 }}
+                            />
+                            <label
+                              className="text-sm"
+                              style={{ fontFamily: "Raleway", fontWeight: 400 }}
+                            >
+                              <input
+                                name="termsandcondition"
+                                type="checkbox"
+                                checked={formData.termsandcondition}
+                                onChange={handleChange}
+                                className="mr-2"
+                              />
+                              I accept the Terms and conditions
+                            </label>
+                            <button
+                              type="submit"
+                              className="w-full h-[48px] bg-[#5B656F] text-white px-6 py-2 rounded-tr-[10px] rounded-br-[10px] rounded-bl-[10px] hover:bg-black transition"
+                            >
+                              <span
+                                className="text-white text-[16px] leading-[24px] font-semibold uppercase"
+                                style={{ fontFamily: "Raleway", fontWeight: "600" }}
+                              >
+                                SEND
+                              </span>
+                            </button>
+                          </form>
+                        </div>
+                        <div className="bg-[#181D24] text-white p-8 rounded-tr-[40px] shadow-lg text-center">
+                          <h2
+                            className="font-bold mb-6 text-[28px]"
+                            style={{ fontFamily: "Rufina", color: "#F5E9D6" }}
+                          >
+                            Reservation’s
+                          </h2>
+                          <div className="grid grid-cols-2 gap-y-4 w-full max-w-[336px] text-left text-[13px] mx-auto">
+                            <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>
+                              Phone
+                            </h4>
+                            <p style={{ fontFamily: "Raleway" }}> +91 8530255598</p>
+                            <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>
+                              Email
+                            </h4>
+                            <p style={{ fontFamily: "Raleway" }}>hospitality@ajpgroup.com</p>
+                            <h4 className="font-bold" style={{ fontFamily: "Rufina" }}>
+                              Address
+                            </h4>
+                            <p
+                              className="col-span-2 leading-relaxed"
+                              style={{ fontFamily: "Raleway" }}
+                            >
+                             Block-2, Kingston Atlantis, Shankarrao Madhukar Ghule Patil Rd
+                              <br />
+                              Mohammed Wadi, Pune, Maharashtra 411060
+                            </p>
+                            <div className="flex gap-4 mt-3 mb-3 col-span-2 justify-center">
+                              <img src={faacebbok} alt="fb" className="w-5 h-5" />
+                              <img src={whatsapp} alt="wa" className="w-5 h-5" />
+                              <img src={ytb} alt="yt" className="w-5 h-5" />
+                              <img src={figma} alt="fig" className="w-5 h-5" />
+                              <img src={net} alt="net" className="w-5 h-5" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
             {/* Bottom 50% with white background */}
             <div className="h-1/2 bg-[#DFE3E7]">
@@ -135,8 +249,8 @@ const Footer = () => {
                         </div>
 
                         <p className="text-[#5B656F] text-sm leading-relaxed mt-5" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
-                            We are a lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                    AJ Hospitality LLP, Is a legally registered trademarked firm. All Rights Reserved.    
+
                         </p>
                     </div>
 
@@ -145,14 +259,14 @@ const Footer = () => {
                             Connect with us
                         </h4>
                         <p className="text-sm text-[#181D24]" style={{ fontFamily: 'Raleway', fontWeight: 400 }}>
-                            +91 9138295999
+                           +91 8530255598
                         </p>
                         <a
                             href="mailto:info@ajpgroup.com"
                             className="text-sm text-[#181D24] underline"
                             style={{ fontFamily: 'Raleway', fontWeight: 400 }}
                         >
-                            info@ajpgroup.com
+                           hospitality@ajpgroup.com
                         </a>
                         <div className='flex gap-4 md:px- mt-3   mb-3 '>
                             <img src={faacebbok} alt="fb" className='w-5 h-5' />
