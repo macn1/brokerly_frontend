@@ -17,29 +17,40 @@ const Home = () => {
     <>
       <section className="bg-[#F5F3F1] mb-5">
         <div
-          className="min-h-[100svh] bg-cover bg-center relative rounded-br-[40px] md:rounded-br-[100px]"
+          className="min-h-[100svh] bg-cover bg-center relative  "
           style={{ backgroundImage: `url(${Landing})` }}
         >
-          {/* <div className="absolute inset-0 bg-black/30"></div> */}
-          {/* <div className="absolute inset-0 bg-black/20"></div> */}
           <div
             className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4"
             style={{
-              background:
-                "radial-gradient(50% 50% at 50% 50%, rgba(18, 38, 52, 0.4) 0%, rgba(18, 38, 52, 0) 100%)",
+              background: "radial-gradient(50% 50% at 50% 50%, rgba(18, 38, 52, 0.4) 0%, rgba(18, 38, 52, 0) 100%)",
             }}
           >
-            <h3
-              className="font-thin  md:font-semibold text-xl text-[#181D24]"
+            <h1
+              className="font-thin md:font-semibold text-xl text-[#181D24] animate-slide-up"
               style={{
-                textShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
+                textShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
+                animation: 'slideUp 2s ease-out forwards'
               }}
             >
               A TAILOR-MADE STAY, MEETINGS YOUR NEEDS
-            </h3>
+            </h1>
           </div>
         </div>
       </section>
+
+      <style jsx global>{`
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+`}</style>
       <section className="bg-[#D5C5B5] py-10">
         <div className="text-center font-[Rufina]  font-bold  text-2xl  md:text-5xl  ">
           <h1>APARTMENTS</h1>
@@ -53,7 +64,7 @@ const Home = () => {
           <div className="flex justify-center py-10 md:py-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[900px] w-full px-10 md:px-3 ">
               <div
-                className="relative overflow-hidden w-full h-[250px] md:h-[310px] bg-cover bg-red-400 bg-center  rounded-tr-[40px] md:rounded-tr-[40px] rounded-bl-[40px] md:rounded-bl-[40px]"
+                className="relative overflow-hidden w-full h-[250px] md:h-[310px] bg-cover  bg-center  rounded-tr-[40px] md:rounded-tr-[40px] rounded-bl-[40px] md:rounded-bl-[40px]"
                 style={{ backgroundImage: `url(${Apartments1Img})` }}
               >
                 <div className="absolute bottom-[24px] left-[24px] text-white">

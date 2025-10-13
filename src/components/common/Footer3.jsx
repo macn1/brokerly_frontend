@@ -29,9 +29,8 @@ const Footer = () => {
                             className="text-[#5B656F] text-sm leading-relaxed mt-5"
                             style={{ fontFamily: "Raleway", fontWeight: 400 }}
                         >
-                            We are a lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                        </p>
+                           Registered Partnership LLP Company. All rights reserved. Please note our terms and conditions mentioned herein            </p>
+
                         <div className="flex flex-wrap gap-3 text-xs text-[#181D24] font-medium text-[14px] mt-8">
                             <a
                                 href="#"
@@ -68,14 +67,14 @@ const Footer = () => {
                             className="text-sm text-[#181D24]"
                             style={{ fontFamily: "Raleway", fontWeight: 400 }}
                         >
-                            +91 9138295999
+                           +91 8421571429
                         </p>
                         <a
                             href="mailto:info@ajpgroup.com"
                             className="text-sm text-[#181D24] underline"
                             style={{ fontFamily: "Raleway", fontWeight: 400 }}
                         >
-                            info@ajpgroup.com
+                            hospitality@ajpgroup.com
                         </a>
                         <div className="flex gap-4 mt-3 mb-3">
                             <img src={faacebbok} alt="fb" className="w-5 h-5" />
