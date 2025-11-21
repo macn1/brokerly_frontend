@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
 import ListLayout from "../common/ListLayout";
 import ApartmentModal from './ApartmentCreateModal'
-import {useGetAllamenitiesQuery, useGetAllApartmentsQuery, useGetAllApartmentAmenityQuery, useGetAllApartmentFacilitiesQuery, useGetAllapartmentsExtraserviceQuery, useDeleteApartmentMutation } from '../../../store/api/apartment'
+import { useGetAllamenitiesQuery, useGetAllApartmentsQuery, useGetAllAmenitiesaptQuery, useGetAllApartmentFacilitiesQuery, useGetAllapartmentsExtraserviceQuery, useDeleteApartmentMutation } from '../../../store/api/apartment'
 import ApartmentDetailModal from './ApartmentDetail'
+import ConfirmDeleteModal from "../common/DeleteModal";
+import ApartmentEditModal from "./ApartmentEditModal";
+import SuccessModal from '../common/Successmodal'
+
 const List = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [deleteApartment] = useDeleteApartmentMutation();
+
+    const [message, setSuccessMessage] = useState("");
+    const [messageType, setMessageType] = useState("success");
+    const [isEditModalOpen, setIsEditmodalOpen] = useState(false)
+
     const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
     const [selectedApartmentId, setSelectedApartmentId] = useState(null);
     const [amenity, setAmenity] = useState([])
@@ -15,8 +24,11 @@ const List = () => {
     const [count, setCount] = useState(10);
     const [filters, setFilters] = useState({});
     const [tableData, setTableData] = useState([]);
-    console.log(amenity,"amenity");
-    
+
+    const [isDeleting, setIsDeleting] = useState(false)
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+    const [selectApartment, setSelectApartment] = useState(null)
+
     const handleAddApartment = (formData) => {
         console.log("Form submitted with:", formData);
         setIsModalOpen(false);
@@ -28,10 +40,7 @@ const List = () => {
 
     const { data: facilty } = useGetAllApartmentFacilitiesQuery()
 
-    console.log(extraService, "facilty");
-
-
-    const { data: ApartmentsData } = useGetAllApartmentsQuery({
+    const { data: ApartmentsData, refetch } = useGetAllApartmentsQuery({
         page: currentPage,
         page_size: pageSize,
         ...filters,
@@ -52,17 +61,6 @@ const List = () => {
 
     }, [ammenitydata])
 
-
-    const handleFilterChange = (field, value) => {
-        setFilters((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
-        setCurrentPage(1);
-    };
-
-
-
     const tableHeaders = [
         { label: "Name", key: "name" },
         { label: "Location", key: "location" },
@@ -75,44 +73,52 @@ const List = () => {
         {
             icon: "MdOutlineRemoveRedEye",
             onClick: (row) => {
-                 console.log("Selected Apartment ID:", row.id);
+                console.log("Selected Apartment ID:", row.id);
                 setSelectedApartmentId(row.id);
                 setIsDetailModalOpen(true);
             }
         },
         {
             icon: "MdOutlineModeEdit",
-            onClick: (row) => console.log(`Edit ${row.id}`),
+            onClick: (row) => {
+                console.log("Selected Apartment ID:", row.id);
+                setSelectedApartmentId(row.id);
+                setIsEditmodalOpen(true);
+            }
         },
         {
             icon: "RiDeleteBinLine",
-            onClick: async (row) => {
-                const confirmDelete = window.confirm(`Are you sure you want to delete apartment ID ${row.id}?`);
-                if (confirmDelete) {
-                    try {
-                        await deleteApartment(row.id).unwrap();
-                        alert("Apartment deleted successfully.");
-                    } catch (error) {
-                        console.error("Delete failed:", error);
-                        alert("Failed to delete apartment.");
-                    }
-                }
-            },
+            onClick: (row) => {
+                setSelectApartment(row)
+                setDeleteModalOpen(true)
+            }
         }
     ];
+    const handleConfirmDelete = async () => {
+        if (!selectApartment) return;
+        setIsDeleting(true);
+        try {
+            await deleteApartment(selectApartment.id).unwrap();
+            setDeleteModalOpen(false);
+            setSelectApartment(null);
+            refetch();
+        } catch (error) {
+            console.error("Delete failed:", error);
+            alert("Failed to delete Apartment");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+    const handleNotification = (message, type = "success") => {
+        setSuccessMessage(message);
+        setMessageType(type);
+    };
 
-    const filterFields = [
-        { name: "name", label: "User Name", type: "text", width: "w-64" },
-        { name: "email", label: "Email", type: "text", width: "w-64" },
-        { name: "role", label: "Role", type: "text", width: "w-64" },
-    ];
 
     return (
         <>
             <ListLayout
                 title="Staff List"
-                filterFields={filterFields}
-                onFilterChange={handleFilterChange}
                 tableHeaders={tableHeaders}
                 tableData={tableData}
                 actionButtons={actionButtons}
@@ -130,14 +136,38 @@ const List = () => {
                 amenity={amenity}
                 facilty={facilty}
                 extraService={extraService}
+                onNotification={handleNotification}
                 onClose={() => setIsModalOpen(false)}
                 title="Edit Property"
                 onSubmit={handleAddApartment}
             />
             <ApartmentDetailModal
                 isOpen={isDetailModalOpen}
+                amenity={amenity}
+                facilty={facilty}
                 apartmentId={selectedApartmentId}
                 onClose={() => setIsDetailModalOpen(false)}
+            />
+            <ApartmentEditModal
+                isOpen={isEditModalOpen}
+                amenity={amenity}
+                facilty={facilty}
+                apartmentId={selectedApartmentId}
+                onClose={() => setIsEditmodalOpen(false)}
+                onNotification={handleNotification}
+
+            />
+            <ConfirmDeleteModal
+                isOpen={deleteModalOpen}
+                onClose={() => setDeleteModalOpen(false)}
+                onConfirm={handleConfirmDelete}
+                itemName={selectApartment?.name}
+                isDeleting={isDeleting}
+            />
+            <SuccessModal
+                message={message}
+                type={messageType}
+                onClose={() => setSuccessMessage("")}
             />
         </>
     );

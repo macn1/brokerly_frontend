@@ -5,12 +5,14 @@ import storage from 'redux-persist/lib/storage';
 import { ApartmentApi } from './api/apartment';
 import { AccountsAPI } from './api/accounts';
 import { BookingsAPI } from './api/bookings'
+import {VendorApi} from './api/vendor'
 import userReducer from './userSlice';
 
 const rootReducer = combineReducers({
   [ApartmentApi.reducerPath]: ApartmentApi.reducer,
   [AccountsAPI.reducerPath]: AccountsAPI.reducer,
   [BookingsAPI.reducerPath]: BookingsAPI.reducer,
+   [VendorApi.reducerPath]: VendorApi.reducer,
 
   user: userReducer,
 });
@@ -28,7 +30,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(ApartmentApi.middleware, AccountsAPI.middleware,BookingsAPI.middleware),
+    }).concat(ApartmentApi.middleware, AccountsAPI.middleware,BookingsAPI.middleware,VendorApi.middleware),
 });
 
 export const persistor = persistStore(store);

@@ -1,93 +1,95 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import ListLayout from "../common/ListLayout";
 import FacilityCreateModal from "./CreateFAcilityModal";
-import { useGetAllPaginatedApartmentFacilitiesQuery, useDeleteApartmentFacilitiesMutation, useCreateApartmentFacilityMutation } from '../../../store/api/apartment'
+import { 
+  useGetAllPaginatedApartmentFacilitiesQuery, 
+  useDeleteApartmentFacilitiesMutation, 
+  useCreateApartmentFacilityMutation 
+} from '../../../store/api/apartment';
+import ConfirmDeleteModal from "../common/DeleteModal";
+import SuccessModal from "../common/Successmodal";
 
 const List = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [deleteFacility] = useDeleteApartmentFacilitiesMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [count, setCount] = useState(0);
-    const [filters, setFilters] = useState({});
-    const [tableData, setTableData] = useState([]);
+    const [filters] = useState({});
+    const [facilityId, setFacilityId] = useState(null);
     const [createFacility] = useCreateApartmentFacilityMutation();
-    const { data: ApartmentsData, refetch } = useGetAllPaginatedApartmentFacilitiesQuery({
-        page: currentPage,
-        page_size: pageSize,
-        ...filters,
-    });
-    useEffect(() => {
-        console.log("Page changed:", currentPage, "Page Size:", pageSize);
-        console.log("Filters:", filters);
-    }, [currentPage, pageSize]);
+    const [message, setSuccessMessage] = useState("");
+    const [messageType, setMessageType] = useState("success");
+
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [selectFacility, setSelectFacility] = useState(null);
+
+    const { data: ApartmentsData } = 
+        useGetAllPaginatedApartmentFacilitiesQuery({
+            page: currentPage,
+            page_size: pageSize,
+            ...filters,
+        });
 
 
-    const [aptdata, setAptdata] = useState([])
 
-    useEffect(() => {
-        if (ApartmentsData) {
-            setTableData(ApartmentsData.results)
-            setCount(ApartmentsData.count)
-        }
+    // ⛔ DO NOT STORE API RESULT INTO STATE
+    const tableData = ApartmentsData?.results || [];
+    const count = ApartmentsData?.count || 0;
 
-    }, [ApartmentsData])
-
-    const handleFilterChange = (field, value) => {
-        setFilters((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
-        setCurrentPage(1);
-    };
-
-    const tableHeaders = [
+    const tableHeaders = useMemo(() => [
         { label: "Name", key: "name" },
-        { label: "Logo", key: "logo" },
-    ];
+        { label: "Service Type", key: "type" },
+    ], []);
 
-
-    const actionButtons = [
+    const actionButtons = useMemo(() => [
         {
             icon: "MdOutlineRemoveRedEye",
             onClick: (row) => console.log(`View ${row.id}`),
         },
         {
             icon: "MdOutlineModeEdit",
-            onClick: (row) => console.log(`Edit ${row.id}`),
+            onClick: (row) => {
+                setFacilityId(row.id);
+                setIsModalOpen(true);
+            },
         },
         {
             icon: "RiDeleteBinLine",
-            onClick: async (row) => {
-                const confirmDelete = window.confirm(`Are you sure you want to delete this ${row.name}?`);
-                if (confirmDelete) {
-                    try {
-                        await deleteFacility(row.id).unwrap();
-                        alert("Apartment Amenity deleted successfully.");
-
-                        refetch()
-                    } catch (error) {
-                        console.error("Delete failed:", error);
-                        alert("Failed to delete apartment Amenity.");
-                    }
-                }
+            onClick: (row) => {
+                setSelectFacility(row);
+                setDeleteModalOpen(true);
             },
         }
-    ];
+    ], []);
 
-    const filterFields = [
-        { name: "name", label: "User Name", type: "text", width: "w-64" },
-        { name: "email", label: "Email", type: "text", width: "w-64" },
-        { name: "role", label: "Role", type: "text", width: "w-64" },
+    const handleConfirmDelete = async () => {
+        if (!selectFacility) return;
 
-    ];
+        setIsDeleting(true);
+
+        try {
+            await deleteFacility(selectFacility.id).unwrap();
+            setDeleteModalOpen(false);
+            setSelectFacility(null);
+         
+        } catch (error) {
+            console.error("Delete failed:", error);
+            alert("Failed to delete Facility.");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const handleNotification = (message, type = "success") => {
+        setSuccessMessage(message);
+        setMessageType(type);
+    };
 
     return (
         <>
             <ListLayout
-                title="Staff List"
-                filterFields={filterFields}
-                onFilterChange={handleFilterChange}
+                title=""
                 tableHeaders={tableHeaders}
                 tableData={tableData}
                 actionButtons={actionButtons}
@@ -98,13 +100,32 @@ const List = () => {
                 setPageSize={setPageSize}
                 totalCount={count}
             />
+
             <FacilityCreateModal
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+                onNotification={handleNotification}
+                onClose={() => {
+                    setIsModalOpen(false);
+                    setFacilityId(null);
+                }}
+                facilityId={facilityId}
                 createFacility={createFacility}
-                onSuccess={refetch}
+                // onSuccess={refetch}
             />
 
+            <ConfirmDeleteModal
+                isOpen={deleteModalOpen}
+                onClose={() => setDeleteModalOpen(false)}
+                onConfirm={handleConfirmDelete}
+                itemName={selectFacility?.name}
+                isDeleting={isDeleting}
+            />
+
+            <SuccessModal
+                message={message}
+                type={messageType}
+                onClose={() => setSuccessMessage("")}
+            />
         </>
     );
 };

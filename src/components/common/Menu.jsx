@@ -31,16 +31,7 @@ const links = [
 },
   { name: "Apartments", path: "/apartments", icon: <PiBuildingApartmentLight />
 },
-  { name: "Cultural city", path: "/cultural-city", icon: <PiMosqueLight />
-},
-  { name: "Medical", path: "/medical", icon: <AiOutlineMedicineBox />},
-  { name: "Visas", path: "/visas", icon:<RiPassportLine />
-},
-  { name: "Chauffeur", path: "/chauffeur", icon: <IoCarSportOutline />
-},
-  { name: "Dental", path: "/dental", icon: <TbDental /> },
-  { name: "F&B", path: "/fnb", icon:<IoFastFoodOutline />
-},
+
   { name: "contact us", path: "/contact-us", icon: <SupportAgentIcon /> },
 ];
 const Menu = ({ mobile = false, onLinkClick = () => { } }) => {

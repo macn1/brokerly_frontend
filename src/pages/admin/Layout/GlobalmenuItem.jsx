@@ -5,58 +5,55 @@ const GlobalMenuItem = ({
   icon,
   label,
   to,
-  userTypeCondition = true,
+  fun,
+  collapsed,
+  isSubMenu,
   subMenuItems = [],
-  isSubMenu = false,
   openSubMenu,
   handleSubMenuClick,
   subMenuKey,
-  design = {},
-  activeUrls = [],
-  fun
 }) => {
   const location = useLocation();
-  const isActive2 = activeUrls.includes(location.pathname);
 
-  if (!userTypeCondition) return null;
+  // submenu active detection
+  const isChildActive = subMenuItems.some(
+    (item) => item.to === location.pathname
+  );
 
-  return isSubMenu ? (
-    <SubMenu
-      title={label}
-      label={label}
-      className="nothover teenfontsize"
-      key={subMenuKey}
-      open={openSubMenu === subMenuKey}
-      onClick={() => handleSubMenuClick(subMenuKey)}
-      icon={icon}
-    >
-      {subMenuItems.map((item, index) => (
-        <GlobalMenuItem key={index} {...item} activeUrls={activeUrls} />
-      ))}
-    </SubMenu>
-  ) : to ? (
-    <NavLink
-      to={to}
-      state={{ pageName: label }}
-      className={({ isActive }) =>
-        isActive || isActive2
-          ? "nav bg-zinc-500 block text-white font-medium"
-          : "nav block text-default font-medium"
-      }
-      onClick={fun}
-    >
-      <MenuItem className="nothover teenfontsize" style={design} icon={icon}>
-        {label}
-      </MenuItem>
-    </NavLink>
-  ) : (
-    <div
-      className="nav block text-default font-medium cursor-pointer"
-      onClick={fun}
-    >
-      <MenuItem className="nothover teenfontsize" style={design} icon={icon}>
-        {label}
-      </MenuItem>
+  const shouldBeOpen =
+    openSubMenu === subMenuKey || (openSubMenu === null && isChildActive);
+
+  // --- SUBMENU ---
+  if (isSubMenu) {
+    return (
+      <SubMenu
+        open={shouldBeOpen}
+          label={label} 
+        icon={icon}
+        onClick={() => handleSubMenuClick(subMenuKey)}
+      >
+        {subMenuItems.map((sub, index) => (
+          <NavLink key={index} to={sub.to}>
+            <MenuItem icon={sub.icon}>{sub.label}</MenuItem>
+          </NavLink>
+        ))}
+      </SubMenu>
+    );
+  }
+
+  // --- NORMAL MENU ITEM ---
+  if (to) {
+    return (
+      <NavLink to={to} onClick={fun}>
+        <MenuItem icon={icon}>{label}</MenuItem>
+      </NavLink>
+    );
+  }
+
+  // --- CLICK-ONLY ITEM ---
+  return (
+    <div onClick={fun}>
+      <MenuItem icon={icon}>{label}</MenuItem>
     </div>
   );
 };

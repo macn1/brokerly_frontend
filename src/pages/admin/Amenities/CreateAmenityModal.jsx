@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useCreateApartmentAmenityMutation } from "../../../store/api/apartment";
 
-const AmenityCreateModal = ({ isOpen, onClose }) => {
+const AmenityCreateModal = ({ isOpen, onClose,onNotification }) => {
     const [formData, setFormData] = useState({ name: "", logo: null });
     const [createAmenity] = useCreateApartmentAmenityMutation();
 
@@ -23,11 +23,12 @@ const AmenityCreateModal = ({ isOpen, onClose }) => {
         try {
             await createAmenity(data).unwrap();
             setFormData(formData.name = '')
-            alert("Amenity created successfully.");
+            onNotification("Amenity created successfully.", "success");
+          
             onClose(); // Close the modal
         } catch (err) {
             console.error("Error creating amenity:", err);
-            alert("Failed to create amenity.");
+            onNotification("Failed to create amenity.", "error");
         }
     };
 

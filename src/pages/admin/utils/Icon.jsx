@@ -21,8 +21,11 @@ import { FaBuilding, FaCheckCircle, FaDoorOpen,  } from "react-icons/fa";
 import { RiServiceFill } from "react-icons/ri";
 import { MdRoomService } from "react-icons/md";
 import { MdHomeRepairService } from "react-icons/md";
+import { LiaUserClockSolid } from "react-icons/lia";
+
 
 const iconMap = {
+  LiaUserClockSolid,
   MdHomeRepairService,
   MdRoomService ,
   RiServiceFill,

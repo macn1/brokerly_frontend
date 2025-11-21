@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ListLayout from "../common/ListLayout";
-import AmenityCreateModal from "./CreateAmenityModal";
-import { useGetAllApartmentAmenityQuery, useDeleteApartmentAmenityMutation, useCreateApartmentAmenityMutation } from '../../../store/api/apartment'
+
+import { useGetAllMemberListQuery, useDeleteVendorMutation, useGetVendorByidQuery } from '../../../store/api/vendor'
 import ConfirmDeleteModal from "../common/DeleteModal";
-import UpdateModal from './UpdateModal'
+import CreateStaff from './CreateStaff'
 import SuccessModal from "../common/Successmodal";
+import DetailMember from './DetailMember'
+
 const List = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-    const [deleteAmenity] = useDeleteApartmentAmenityMutation();
+    const [deleteVendor] = useDeleteVendorMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [count, setCount] = useState(0);
     const [filters, setFilters] = useState({});
@@ -17,14 +19,13 @@ const List = () => {
     const [messageType, setMessageType] = useState("success");
     const [isDeleting, setIsDeleting] = useState(false)
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-    const [selectAmenity, setSelectAmenity] = useState(null)
+    const [selectVendor, setSelectVendor] = useState(null)
+    const [vendorId,setSelectVendorId] = useState(null)
+    const [isDetailModal, setIsDetailModal] = useState(false)
 
-    const [isupdateModalopen, setIsupdateModalOpen] = useState(false)
-    // const [apartmentId, setAparmentId] = useState(null)
-    const [apartmentId, setApartmentId] = useState(null)
-    console.log(apartmentId, "sssssssssssssss");
+    console.log(isModalOpen, "sssssssssssssss");
 
-    const { data: ApartmentsData, refetch } = useGetAllApartmentAmenityQuery({
+    const { data: MemberList, refetch } = useGetAllMemberListQuery({
         page: currentPage,
         page_size: pageSize,
         ...filters,
@@ -34,15 +35,15 @@ const List = () => {
     const [aptdata, setAptdata] = useState([])
 
     useEffect(() => {
-        if (ApartmentsData) {
-            setTableData(ApartmentsData.results)
-            setCount(ApartmentsData.count)
+        if (MemberList) {
+            setTableData(MemberList.results)
+            setCount(MemberList.count)
         }
 
-    }, [ApartmentsData])
+    }, [MemberList])
 
     const BASE_URL = process.env.REACT_APP_API_URL.replace("/api", "");
-    
+
     const handleNotification = (message, type = "success") => {
         setSuccessMessage(message);
         setMessageType(type);
@@ -50,57 +51,43 @@ const List = () => {
 
     const tableHeaders = [
         { label: "Name", key: "name" },
-        {
-            label: "Logo",
-            key: "logo",
-            formatter: (value, row) => {
-                // Handle missing or relative URLs
-                const imageUrl = value
-                    ? `${BASE_URL}${value.startsWith("/") ? value : `/${value}`}`
-                    : "/placeholder.png"; // Optional placeholder
-
-                return (
-                    <img
-                        src={imageUrl}
-                        alt={row.name}
-                        className="h-8 w-12 object-cover  border"
-                        onError={(e) => (e.target.src = "/placeholder.png")}
-                    />
-                );
-            },
-        },
+        { label: "Email", key: "email" },
+        { label: "Designation", key: "designation" },
     ];
 
 
     const actionButtons = [
-        // {
-        //     icon: "MdOutlineRemoveRedEye",
-        //     onClick: (row) => console.log(`View ${row.id}`),
-        // },
+        {
+            icon: "MdOutlineRemoveRedEye",
+            onClick: (row) =>  {
+                setIsDetailModal(true)
+                setSelectVendorId(row.id)
+
+            }
+        },
         {
             icon: "MdOutlineModeEdit",
             onClick: (row) => {
                 console.log(`View ${row.id}`)
-                setApartmentId(row.id)
-                setIsupdateModalOpen(true)
+
             },
         },
         {
             icon: "RiDeleteBinLine",
             onClick: (row) => {
-                setSelectAmenity(row)
+                setSelectVendor(row)
                 setDeleteModalOpen(true)
 
             }
         }
     ];
     const handleConfirmDelete = async () => {
-        if (!selectAmenity) return;
+        if (!selectVendor) return;
         setIsDeleting(true);
         try {
-            await deleteAmenity(selectAmenity.id).unwrap();
+            await deleteVendor(selectVendor.id).unwrap();
             setDeleteModalOpen(false);
-            setSelectAmenity(null);
+            setSelectVendor(null);
             refetch();
         } catch (error) {
             console.error("Delete failed:", error);
@@ -125,27 +112,34 @@ const List = () => {
                 setPageSize={setPageSize}
                 totalCount={count}
             />
-            <AmenityCreateModal
+            <CreateStaff
                 isOpen={isModalOpen}
-                    onNotification={handleNotification}
+                onNotification={handleNotification}
                 onClose={() => {
                     setIsModalOpen(false);
-                    refetch(); // refresh list after modal is closed
                 }}
+            />
+               <DetailMember
+                isOpen={isDetailModal}
+                onNotification={handleNotification}
+                onClose={() => {
+                    setIsDetailModal(false);
+                }}
+                vendorId={vendorId}
             />
             <ConfirmDeleteModal
                 isOpen={deleteModalOpen}
                 onClose={() => setDeleteModalOpen(false)}
                 onConfirm={handleConfirmDelete}
-                itemName={selectAmenity?.name}
+                itemName={selectVendor?.name}
                 isDeleting={isDeleting}
             />
-            <UpdateModal
+            {/* <UpdateModal
                 isOpen={isupdateModalopen}
                 ApartmentId={apartmentId}
                 onNotification={handleNotification}
                 onClose={() => { setIsupdateModalOpen(false) }}
-            />
+            /> */}
             <SuccessModal
                 message={message}
                 type={messageType}

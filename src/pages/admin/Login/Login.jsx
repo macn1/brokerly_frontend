@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import logo from '../../../../src/assets/logo.png';
-import background from '../../../../src/assets/apartments/bg.png';
+import logo from '../../../../src/assets/stackerbeelogo.png';
+import background from '../../../../src/assets/apartments/hero.jpg';
 import { setUser } from '../../../store/userSlice'
 import { useDispatch } from 'react-redux';
 import {

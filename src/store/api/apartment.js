@@ -7,11 +7,9 @@ const baseQuery = fetchBaseQuery({
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }
-
         return headers;
     },
 });
-
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
@@ -28,98 +26,34 @@ export const ApartmentApi = createApi({
     baseQuery: baseQueryWithReauth,
     tagTypes: ['Apartment'],
     endpoints: (builder) => ({
-        getAllAmenity: builder.query({
-            query: () => `/apartments/room-amenity`,
-        }),
-        getAllamenities: builder.query({
-            query: () => `/apartments/amenities`,
-        }),
-        getApartmentById: builder.query({
-            query: (id) => `/apartments/apartment/${id}`,
-        }),
-        getAllApartments: builder.query({
-            query: () => `/apartments/apartment`,
+
+        // --------------------
+        // AMENITIES
+        // --------------------
+
+        getAllAmenitiesapt: builder.query({
+            query: () => `/apartments/amenity-all`,
             providesTags: ['Apartment'],
         }),
+
+        getAllamenities: builder.query({
+            query: () => `/apartments/amenities`,
+            providesTags: ['Apartment'],
+        }),
+
+        getAmenitybyId: builder.query({
+            query: (id) => `/apartments/amenity/${id}`,
+            providesTags: ['Apartment'],
+        }),
+
         getAllApartmentAmenity: builder.query({
             query: ({ page = 1, page_size = 10, ...filters }) => {
                 const params = new URLSearchParams({ page, page_size, ...filters }).toString();
                 return `/apartments/amenity?${params}`;
             },
-            invalidatesTags: ['Apartment'],
-        }),
-        createApartment: builder.mutation({
-            query: (newApartment) => ({
-                url: `/apartments/apartment`,
-                method: 'POST',
-                body: newApartment,
-            }),
-            invalidatesTags: ['Apartment'],
-        }),
-        getAllApartmentFacilities: builder.query({
-            query: () => `/apartments/facility`,
-        }),
-        deleteApartmentFacilities: builder.mutation({
-            query: (id) => ({
-                url: `/apartments/facility/${id}`,
-                method: 'DELETE',
-            }),
-            invalidatesTags: ['Apartment'],
-        }),
-        getAllPaginatedApartmentFacilities: builder.query({
-            query: ({ page = 1, page_size = 10, ...filters }) => {
-                const params = new URLSearchParams({ page, page_size, ...filters }).toString();
-                return `/apartments/paginated-facility?${params}`;
-            },
-            invalidatesTags: ['Apartment'],
-
+            providesTags: ['Apartment'],
         }),
 
-        getAllapartmentsExtraservice: builder.query({
-            query: () => `/apartments/extra-service`,
-        }),
-        getAllPagiantedapartmentsExtraservice: builder.query({
-            query: ({ page = 1, page_size = 10, ...filters }) => {
-                const params = new URLSearchParams({ page, page_size, ...filters }).toString();
-                return `/apartments/paginated-extra-service?${params}`;
-            },
-            invalidatesTags: ['Apartment'],
-        }),
-        deleteApartmentExtraervice: builder.mutation({
-            query: (id) => ({
-                url: `/apartments/extra-service/${id}`,
-                method: 'DELETE',
-            }),
-            invalidatesTags: ['Apartment'],
-        }),
-        deleteApartment: builder.mutation({
-            query: (id) => ({
-                url: `/apartments/apartment/${id}`,
-                method: 'DELETE',
-            }),
-            invalidatesTags: ['Apartment'],
-        }),
-        deleteApartmentAmenity: builder.mutation({
-            query: (id) => ({
-                url: `/apartments/amenity/${id}`,
-                method: 'DELETE',
-            }),
-            invalidatesTags: ['Apartment'],
-        }),
-
-        apartmentDetail: builder.query({
-            query: (id) => ({
-                url: `/apartments/apartment/${id}`,
-                method: "GET"
-            })
-        }),
-        uploadApartmentImages: builder.mutation({
-            query: (formData) => ({
-                url: '/apartments/images',
-                method: 'POST',
-                body: formData,
-            }),
-        }),
         createApartmentAmenity: builder.mutation({
             query: (formData) => ({
                 url: '/apartments/amenity',
@@ -128,6 +62,104 @@ export const ApartmentApi = createApi({
             }),
             invalidatesTags: ['Apartment'],
         }),
+
+        deleteApartmentAmenity: builder.mutation({
+            query: (id) => ({
+                url: `/apartments/amenity/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Apartment'],
+        }),
+
+        updateAmenity: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/apartments/amenity/${id}`,
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ['Apartment'],
+        }),
+
+        // --------------------
+        // APARTMENTS
+        // --------------------
+
+        getApartmentById: builder.query({
+            query: (id) => `/apartments/apartment/${id}`,
+            providesTags: ['Apartment'],
+        }),
+
+        getAllApartments: builder.query({
+            query: () => `/apartments/apartment`,
+            providesTags: ['Apartment'],
+        }),
+
+        apartmentDetail: builder.query({
+            query: (id) => ({
+                url: `/apartments/apartment/${id}`,
+                method: "GET",
+            }),
+            providesTags: ['Apartment'],
+        }),
+
+        createApartment: builder.mutation({
+            query: (newApartment) => ({
+                url: `/apartments/apartment`,
+                method: 'POST',
+                body: newApartment,
+            }),
+            invalidatesTags: ['Apartment'],
+        }),
+
+        updateApartment: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/apartments/apartment/${id}`,
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ['Apartment'],
+        }),
+
+        deleteApartment: builder.mutation({
+            query: (id) => ({
+                url: `/apartments/apartment/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Apartment'],
+        }),
+
+        uploadApartmentImages: builder.mutation({
+            query: (formData) => ({
+                url: '/apartments/images',
+                method: 'POST',
+                body: formData,
+            }),
+            invalidatesTags: ['Apartment'],
+        }),
+
+        // --------------------
+        // FACILITIES
+        // --------------------
+
+        getAllApartmentFacilities: builder.query({
+            query: () => `/apartments/facility`,
+            providesTags: ['Apartment'],
+        }),
+
+        getFacilityById: builder.query({
+            query: (id) => `/apartments/facility/${id}`,
+            providesTags: ['Apartment'],
+        }),
+
+        getAllPaginatedApartmentFacilities: builder.query({
+            query: ({ page = 1, page_size = 10, ...filters }) => {
+                const params = new URLSearchParams({ page, page_size, ...filters }).toString();
+                return `/apartments/paginated-facility?${params}`;
+            },
+            providesTags: ['Apartment'],
+        }),
+
+
         createApartmentFacility: builder.mutation({
             query: (data) => ({
                 url: '/apartments/facility',
@@ -136,6 +168,41 @@ export const ApartmentApi = createApi({
             }),
             invalidatesTags: ['Apartment'],
         }),
+
+        updateFacility: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/apartments/facility/${id}`,
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ['Apartment'],
+        }),
+
+        deleteApartmentFacilities: builder.mutation({
+            query: (id) => ({
+                url: `/apartments/facility/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Apartment'],
+        }),
+
+        // --------------------
+        // EXTRA SERVICES
+        // --------------------
+
+        getAllapartmentsExtraservice: builder.query({
+            query: () => `/apartments/extra-service`,
+            providesTags: ['Apartment'],
+        }),
+
+        getAllPagiantedapartmentsExtraservice: builder.query({
+            query: ({ page = 1, page_size = 10, ...filters }) => {
+                const params = new URLSearchParams({ page, page_size, ...filters }).toString();
+                return `/apartments/paginated-extra-service?${params}`;
+            },
+            providesTags: ['Apartment'],
+        }),
+
         createExtraservice: builder.mutation({
             query: (formData) => ({
                 url: "/apartments/extra-service",
@@ -145,8 +212,41 @@ export const ApartmentApi = createApi({
             invalidatesTags: ["Apartment"],
         }),
 
+        deleteApartmentExtraervice: builder.mutation({
+            query: (id) => ({
+                url: `/apartments/extra-service/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Apartment'],
+        }),
+
     })
 });
 
-export const {useGetAllamenitiesQuery, useDeleteApartmentExtraerviceMutation, useDeleteApartmentFacilitiesMutation, useCreateExtraserviceMutation, useGetAllPagiantedapartmentsExtraserviceQuery, useCreateApartmentFacilityMutation, useGetAllPaginatedApartmentFacilitiesQuery, useCreateApartmentAmenityMutation, useDeleteApartmentAmenityMutation, useUploadApartmentImagesMutation, useApartmentDetailQuery, useDeleteApartmentMutation, useGetAllAmenityQuery, useGetAllapartmentAmenityQuery, useGetApartmentByIdQuery, useGetAllApartmentsQuery, useGetAllApartmentAmenityQuery, useCreateApartmentMutation, useGetAllApartmentFacilitiesQuery, useGetAllapartmentsExtraserviceQuery
+export const {
+    useGetAllAmenitiesaptQuery,
+    useGetFacilityByIdQuery,
+    useUpdateFacilityMutation,
+    useUpdateApartmentMutation,
+    useUpdateAmenityMutation,
+    useGetAmenitybyIdQuery,
+    useGetAllamenitiesQuery,
+    useDeleteApartmentExtraerviceMutation,
+    useDeleteApartmentFacilitiesMutation,
+    useCreateExtraserviceMutation,
+    useGetAllPagiantedapartmentsExtraserviceQuery,
+    useCreateApartmentFacilityMutation,
+    useGetAllPaginatedApartmentFacilitiesQuery,
+    useCreateApartmentAmenityMutation,
+    useDeleteApartmentAmenityMutation,
+    useUploadApartmentImagesMutation,
+    useApartmentDetailQuery,
+    useDeleteApartmentMutation,
+    useGetAllAmenityQuery,
+    useGetAllApartmentAmenityQuery,
+    useGetApartmentByIdQuery,
+    useGetAllApartmentsQuery,
+    useCreateApartmentMutation,
+    useGetAllApartmentFacilitiesQuery,
+    useGetAllapartmentsExtraserviceQuery
 } = ApartmentApi;
