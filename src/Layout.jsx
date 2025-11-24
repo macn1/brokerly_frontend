@@ -30,6 +30,7 @@ import Facility from './pages/admin/Facility-Services/Facility'
 import Extra from './pages/admin/Extrra-service/Exrtra'
 import Contacus from './pages/Contact-Us/Contactus'
 import VendorLogin from './pages/vendor/Login'
+import CustomerLeads from './pages/admin/CustomerLeads/Leads'
 import VendorSignup from './pages/vendor/Signup'
 export default function Layout() {
   const location = useLocation();
@@ -89,6 +90,7 @@ export default function Layout() {
               <Route path="vendor-onboard" element={<OnboardVendor/>} />
               <Route path="contacted-customers" element={<Contacted />} />
               <Route path="apartment-facility" element={<Facility />} />
+              <Route path="customer-leads" element={<CustomerLeads />} />
               <Route path="extra-service" element={<Extra />} />
             </Route>
           </Route>

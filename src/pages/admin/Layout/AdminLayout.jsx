@@ -66,26 +66,26 @@ const AdminLayout = () => {
 
     // FIXED — Submenu now has roles
     {
-      icon: <GetIcon iconName="FaDoorOpen" />,
+      icon: <GetIcon iconName="RiCustomerService2Line" />,
       label: "CRM",
       isSubMenu: true,
       roles: ["User", "Vendor", "Admin"],
       subMenuKey: "crm-menu",
       subMenuItems: [
         {
-          label: "Enquiry",
-          to: "/admin/enq",
-          icon: <GetIcon iconName="FaListAlt" />,
+          label: "Leads",
+          to: "/admin/customer-leads",
+          icon: <GetIcon iconName="FaCodePullRequest"/>,
         },
         {
-          label: "Leads",
+          label: "Approved Bookings",
           to: "/admin/leads",
           icon: <GetIcon iconName="FaRegCalendarCheck" />,
         },
         {
           label: "Transactions",
           to: "/admin/transactions",
-          icon: <GetIcon iconName="RiServiceFill" />,
+          icon: <GetIcon iconName="GrTransaction" />,
         },
       ],
     },

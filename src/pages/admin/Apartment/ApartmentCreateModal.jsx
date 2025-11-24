@@ -3,6 +3,10 @@ import { IoClose } from "react-icons/io5";
 import { useCreateApartmentMutation } from "../../../store/api/apartment";
 
 const ApartmentModal = ({ isOpen, onClose, amenity, facilty, extraService ,onNotification}) => {
+
+  console.log(amenity,"amenitydetails");
+  
+
   const [mainImage, setMainImage] = useState(null);
   const [sideImages, setSideImages] = useState([]);
   const [formData, setFormData] = useState({

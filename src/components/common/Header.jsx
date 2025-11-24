@@ -26,7 +26,7 @@ const Header = () => {
 
           {/* Register as Vendor Button */}
           <Link
-            to="/vendor-register"
+            to="/vendor-login"
             className="bg-sky-900 transition px-4 py-2 rounded-lg text-sm font-medium"
           >
             Register as Vendor

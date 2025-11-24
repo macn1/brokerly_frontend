@@ -22,9 +22,15 @@ import { RiServiceFill } from "react-icons/ri";
 import { MdRoomService } from "react-icons/md";
 import { MdHomeRepairService } from "react-icons/md";
 import { LiaUserClockSolid } from "react-icons/lia";
+import { FaCodePullRequest } from "react-icons/fa6";
+import { RiCustomerService2Line } from "react-icons/ri";
+import { GrTransaction } from "react-icons/gr";
 
 
 const iconMap = {
+  GrTransaction,
+  RiCustomerService2Line,
+  FaCodePullRequest,
   LiaUserClockSolid,
   MdHomeRepairService,
   MdRoomService ,

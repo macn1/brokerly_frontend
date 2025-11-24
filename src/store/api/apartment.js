@@ -2,11 +2,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL,
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers, { getState, extra }) => {
+        // If skipAuth enabled → DON'T attach token
+        if (extra?.skipAuth) {
+            return headers;
+        }
+
         const token = localStorage.getItem('authtoken');
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }
+
         return headers;
     },
 });
@@ -84,6 +90,29 @@ export const ApartmentApi = createApi({
         // APARTMENTS
         // --------------------
 
+        getAllApartmentpaginated: builder.query({
+            query: ({ page = 1, page_size = 10, ...filters }) => {
+                const params = new URLSearchParams({ page, page_size, ...filters }).toString();
+                return `/apartments/apartment-data?${params}`;
+            },
+            providesTags: ['Apartment'],
+        }),
+         getAllApartmentpaginatedClients: builder.query({
+            query: ({ page = 1, page_size = 10, ...filters } = {}) => {
+                const params = new URLSearchParams({ page, page_size, ...filters }).toString();
+                return `/apartments/apartment-clients-data?${params}`;
+            },
+            // Add skipAuth as an option in the query call, not in the returned object
+            providesTags: ['Apartment'],
+        }),
+
+        getAllApartmentpaginatedVendor: builder.query({
+            query: ({ page = 1, page_size = 10, ...filters }) => {
+                const params = new URLSearchParams({ page, page_size, ...filters }).toString();
+                return `/apartments/apartment-vendor-data?${params}`;
+            },
+            providesTags: ['Apartment'],
+        }),
         getApartmentById: builder.query({
             query: (id) => `/apartments/apartment/${id}`,
             providesTags: ['Apartment'],
@@ -224,6 +253,9 @@ export const ApartmentApi = createApi({
 });
 
 export const {
+    useGetAllApartmentpaginatedClientsQuery,
+    useGetAllApartmentpaginatedVendorQuery,
+    useGetAllApartmentpaginatedQuery,
     useGetAllAmenitiesaptQuery,
     useGetFacilityByIdQuery,
     useUpdateFacilityMutation,
