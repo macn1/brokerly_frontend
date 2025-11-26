@@ -113,6 +113,11 @@ export const ApartmentApi = createApi({
             },
             providesTags: ['Apartment'],
         }),
+         getAllaprtmentsName: builder.query({
+            query: () => `/apartments/apartment-name`,
+            providesTags: ['Apartment'],
+        }),
+
         getApartmentById: builder.query({
             query: (id) => `/apartments/apartment/${id}`,
             providesTags: ['Apartment'],
@@ -253,6 +258,7 @@ export const ApartmentApi = createApi({
 });
 
 export const {
+    useGetAllaprtmentsNameQuery,
     useGetAllApartmentpaginatedClientsQuery,
     useGetAllApartmentpaginatedVendorQuery,
     useGetAllApartmentpaginatedQuery,

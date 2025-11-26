@@ -66,7 +66,7 @@ export const BookingsAPI = createApi({
             },
             providesTags: ['Leads'],
         }),
-         getAllcustomerVendorLeads: builder.query({
+        getAllcustomerVendorLeads: builder.query({
             query: ({ page = 1, page_size = 10, ...filters }) => {
                 const params = new URLSearchParams({
                     page,
@@ -78,7 +78,14 @@ export const BookingsAPI = createApi({
             },
             providesTags: ['Leads'],
         }),
-        
+        getleadsDetail: builder.query({
+            query: (id) => ({
+                url: `/bookings/all-leads/${id}`,
+                method: 'get',
+            }),
+            providesTags: ['Leads'],
+        }),
+
         deleteApartmentLeads: builder.mutation({
             query: (id) => ({
                 url: `/bookings/all-leads/${id}`,
@@ -87,11 +94,23 @@ export const BookingsAPI = createApi({
             invalidatesTags: ['Leads'],
         }),
 
+        createLeadVisit: builder.mutation({
+            query: (credentials) => ({
+                url: '/bookings/lead-visit',
+                method: 'POST',
+                body: credentials,
+            }),
+            invalidatesTags: ['Leads'],
+        }),
+
+
         // getAllAdmin
     }),
 });
 
 export const {
+    useGetleadsDetailQuery,
+    useCreateLeadVisitMutation,
     useDeleteApartmentLeadsMutation,
     useGetAllcustomerVendorLeadsQuery,
     useCreateLeadMutation,

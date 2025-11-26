@@ -5,13 +5,16 @@ import { useGetAllcustomerVendorLeadsQuery, useDeleteApartmentLeadsMutation, use
 import ConfirmDeleteModal from "../common/DeleteModal";
 // import UpdateModal from './UpdateModal'
 import { useSelector } from "react-redux";
-
+import CreateModal from './CreateLeadModal'
+import VisitModal from './CreateLeadVistModal'
 import SuccessModal from "../common/Successmodal";
+import Detailmodal from './DetailLeadModal'
 const List = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [deleteLeads] = useDeleteApartmentLeadsMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     const [count, setCount] = useState(0);
     const [filters, setFilters] = useState({});
     const [tableData, setTableData] = useState([]);
@@ -22,10 +25,15 @@ const List = () => {
     const [selectAmenity, setSelectAmenity] = useState(null)
     const role = useSelector((state) => state.user.role);
 
+
+    const [createModalOpen, setCreateModalOpen] = useState(false)
+    const [visitModalOpen, setVisitModalOpen] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+
     const [isupdateModalopen, setIsupdateModalOpen] = useState(false)
     // const [apartmentId, setAparmentId] = useState(null)
     const [apartmentId, setApartmentId] = useState(null)
-    console.log(role, "sssssssssssssss");
+
 
     //    const role = useSelector((state) => state.user.role);
 
@@ -62,6 +70,11 @@ const List = () => {
 
     const BASE_URL = process.env.REACT_APP_API_URL.replace("/api", "");
 
+    const handleVisitClick = (row) => {
+        setSelectedRow(row);
+        setVisitModalOpen(true);
+    };
+
     const handleNotification = (message, type = "success") => {
         setSuccessMessage(message);
         setMessageType(type);
@@ -73,6 +86,18 @@ const List = () => {
 
         { label: "message", key: "message" },
         { label: "Requested_Mode", key: "request_mode" },
+        {
+            label: "Visit",
+            key: "visit",
+            formatter: (_, row) => (
+                <button
+                    className="px-2 py-1 text-xs bg-[#3e3e45] text-white rounded"
+                    onClick={() => handleVisitClick(row)}
+                >
+                    Visited Details Logs
+                </button>
+            ),
+        },
 
 
 
@@ -80,10 +105,14 @@ const List = () => {
 
 
     const actionButtons = [
-        // {
-        //     icon: "MdOutlineRemoveRedEye",
-        //     onClick: (row) => console.log(`View ${row.id}`),
-        // },
+        {
+            icon: "MdOutlineRemoveRedEye",
+            onClick: (row) => {
+                console.log(`View ${row}`)
+                setSelectedRow(row);
+                setIsModalOpen(true)
+            },
+        },
         {
             icon: "MdOutlineModeEdit",
             onClick: (row) => {
@@ -126,20 +155,20 @@ const List = () => {
                 tableData={tableData}
                 actionButtons={actionButtons}
                 currentPage={currentPage}
-                onAddNewButton={() => setIsModalOpen(true)}
+                onAddNewButton={() => setCreateModalOpen(true)}
                 setCurrentPage={setCurrentPage}
                 pageSize={pageSize}
                 setPageSize={setPageSize}
                 totalCount={count}
             />
-            {/* <AmenityCreateModal
-                    isOpen={isModalOpen}
-                        onNotification={handleNotification}
-                    onClose={() => {
-                        setIsModalOpen(false);
-                        refetch(); // refresh list after modal is closed
-                    }}
-                /> */}
+            <CreateModal
+                isOpen={createModalOpen}
+                onNotification={handleNotification}
+                onClose={() => {
+                    setCreateModalOpen(false);
+                    refetch(); // refresh list after modal is closed
+                }}
+            />
             <ConfirmDeleteModal
                 isOpen={deleteModalOpen}
                 onClose={() => setDeleteModalOpen(false)}
@@ -147,12 +176,25 @@ const List = () => {
                 itemName={selectAmenity?.name}
                 isDeleting={isDeleting}
             />
+                <Detailmodal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                data={selectedRow}
+                
+            />
             {/* <UpdateModal
                     isOpen={isupdateModalopen}
                     ApartmentId={apartmentId}
                     onNotification={handleNotification}
                     onClose={() => { setIsupdateModalOpen(false) }}
                 /> */}
+            <VisitModal
+                isOpen={visitModalOpen}
+                onClose={() => setVisitModalOpen(false)}
+                onNotification={handleNotification}
+                data={selectedRow}
+            />
+
             <SuccessModal
                 message={message}
                 type={messageType}
