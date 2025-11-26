@@ -390,7 +390,7 @@ function PropertyCard({ apartment, onViewDetails }) {
                     className="w-full bg-gray-900 text-white py-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 font-medium"
                     onClick={() => onViewDetails(apartment)}
                 >
-                    View Details
+                    Schedule Visit
                 </button>
             </div>
         </div>
