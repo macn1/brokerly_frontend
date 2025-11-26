@@ -111,10 +111,15 @@ export const VendorApi = createApi({
       query: (id) => `/api/vendor/listall-members/${id}`,
       providesTags: ["Vendor"],
     }),
+      getAllMemberName: builder.query({
+      query: () => `/api/member/list-all`,
+      providesTags: ["Vendor"],
+    }),
   }),
 });
 
 export const {
+  useGetAllMemberNameQuery,
   useGetMemberbyIdQuery,
   useDeleteMemberMutation,
   useGetAllMemberListQuery,

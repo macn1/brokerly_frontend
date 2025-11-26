@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useCreateLeadVisitMutation } from "../../../store/api/bookings";
+import { useGetAllMemberNameQuery } from "../../../store/api/vendor";
 
 const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
     const [createLeadVisit, { isLoading }] = useCreateLeadVisitMutation();
+    const { data: membersList, isLoading: membersLoading } = useGetAllMemberNameQuery();
 
     const VISIT_STATUS_CHOICES = [
         "Interested",
@@ -12,16 +14,13 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
         "Paid",
     ];
 
-    // ====== INITIAL VALUES ======
     const apartmentPrice = Number(data?.apartment_price || 0);
 
-    // Take last pending_amount if visits exist, else apartment price
     const lastPendingAmount =
         data?.visits?.length > 0
             ? Number(data.visits[data.visits.length - 1].pending_amount)
             : apartmentPrice;
 
-    // Form state
     const [formData, setFormData] = useState({
         status: "Interested",
         amount_paid: "",
@@ -29,7 +28,8 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
         remarks: "",
     });
 
-    // Auto recalc pending amount when amount_paid changes
+    const [staffId, setStaffId] = useState("");
+
     useEffect(() => {
         const paid = Number(formData.amount_paid || 0);
         const pending = lastPendingAmount - paid;
@@ -57,13 +57,13 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
             amount_paid: Number(formData.amount_paid || 0),
             pending_amount: Number(formData.pending_amount || 0),
             remarks: formData.remarks,
+            vendor_name: staffId || data.vendor_name || null, // staff id passed
         };
 
         try {
             await createLeadVisit(payload).unwrap();
             onNotification("Lead visit created successfully!", "success");
 
-            // Reset to updated last pending amount
             setFormData({
                 status: "Interested",
                 amount_paid: "",
@@ -71,6 +71,7 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
                 remarks: "",
             });
 
+            setStaffId("");
             onClose();
         } catch (err) {
             onNotification("Failed to create lead visit", "error");
@@ -106,11 +107,8 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
 
                 {/* Body */}
                 <div className="p-6">
-
-                    {/* 2-Column Layout */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
 
-                        {/* Customer Name */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Customer Name
@@ -123,7 +121,6 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
                             />
                         </div>
 
-                        {/* Apartment Name */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Apartment Name
@@ -136,7 +133,6 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
                             />
                         </div>
 
-                        {/* Apartment Price */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Apartment Price
@@ -149,7 +145,6 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
                             />
                         </div>
 
-                        {/* Pending Amount */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Pending Amount (Auto)
@@ -161,14 +156,41 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
                                 className="w-full px-3 py-2 border rounded-md bg-gray-100"
                             />
                         </div>
+
+                        {/* Staff / Vendor */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Staff Name
+                            </label>
+
+                            {data?.vendor_name ? (
+                                <input
+                                    type="text"
+                                    value={data.vendor_name}
+                                    readOnly
+                                    className="w-full px-3 py-2 border rounded-md bg-gray-100"
+                                />
+                            ) : (
+                                <select
+                                    className="w-full px-3 py-2 border rounded-md"
+                                    value={staffId}
+                                    disabled={membersLoading}
+                                    onChange={(e) => setStaffId(e.target.value)}
+                                >
+                                    <option value="">Select Staff</option>
+                                    {membersList?.map((m) => (
+                                        <option key={m.id} value={m.id}>
+                                            {m.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
+                        </div>
                     </div>
 
-                    {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-6">
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                            {/* Status */}
                             <div>
                                 <label className="block text-sm font-medium mb-1">
                                     Visit Status *
@@ -186,7 +208,6 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
                                 </select>
                             </div>
 
-                            {/* Amount Paid */}
                             <div>
                                 <label className="block text-sm font-medium mb-1">
                                     Amount Paid
@@ -201,10 +222,8 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
                                     placeholder="Enter amount"
                                 />
                             </div>
-
                         </div>
 
-                        {/* Remarks */}
                         <div>
                             <label className="block text-sm font-medium mb-1">
                                 Remarks (Optional)
@@ -220,7 +239,6 @@ const LeadVisitModal = ({ isOpen, onClose, onNotification, data }) => {
                             />
                         </div>
 
-                        {/* Buttons */}
                         <div className="flex space-x-3 pt-4">
                             <button
                                 type="button"

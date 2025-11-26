@@ -97,7 +97,7 @@ export const ApartmentApi = createApi({
             },
             providesTags: ['Apartment'],
         }),
-         getAllApartmentpaginatedClients: builder.query({
+        getAllApartmentpaginatedClients: builder.query({
             query: ({ page = 1, page_size = 10, ...filters } = {}) => {
                 const params = new URLSearchParams({ page, page_size, ...filters }).toString();
                 return `/apartments/apartment-clients-data?${params}`;
@@ -113,7 +113,7 @@ export const ApartmentApi = createApi({
             },
             providesTags: ['Apartment'],
         }),
-         getAllaprtmentsName: builder.query({
+        getAllaprtmentsName: builder.query({
             query: () => `/apartments/apartment-name`,
             providesTags: ['Apartment'],
         }),
@@ -153,7 +153,14 @@ export const ApartmentApi = createApi({
             }),
             invalidatesTags: ['Apartment'],
         }),
-
+        updateApartmentStatus: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/apartments/apartment-status/${id}`,
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ['Apartment'],
+        }),
         deleteApartment: builder.mutation({
             query: (id) => ({
                 url: `/apartments/apartment/${id}`,
@@ -258,6 +265,7 @@ export const ApartmentApi = createApi({
 });
 
 export const {
+    useUpdateApartmentStatusMutation,
     useGetAllaprtmentsNameQuery,
     useGetAllApartmentpaginatedClientsQuery,
     useGetAllApartmentpaginatedVendorQuery,
