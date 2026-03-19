@@ -221,12 +221,11 @@ function Home() {
     );
 }
 
-export default Home;
-
 //
 // ---------------- PROPERTY CARD COMPONENT ----------------
 //
 function PropertyCard({ apartment, onViewDetails }) {
+    const navigate = useNavigate();
     const [index, setIndex] = useState(0);
     const images = apartment.images || [];
 
@@ -385,13 +384,21 @@ function PropertyCard({ apartment, onViewDetails }) {
                     )}
                 </div>
 
-                {/* VIEW DETAILS BUTTON */}
-                <button 
-                    className="w-full bg-gray-900 text-white py-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 font-medium"
-                    onClick={() => onViewDetails(apartment)}
-                >
-                    Schedule Visit
-                </button>
+                {/* ACTION BUTTONS */}
+                <div className="flex gap-3">
+                    <button 
+                        className="flex-1 bg-gray-900 text-white py-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 font-medium"
+                        onClick={() => onViewDetails(apartment)}
+                    >
+                        Schedule Visit
+                    </button>
+                    <button 
+                        className="flex-1 border border-gray-900 text-gray-900 py-3 rounded-lg hover:bg-gray-100 transition-colors duration-200 font-medium"
+                        onClick={() => navigate(`/apartments?id=${apartment.id}`)}
+                    >
+                        Explore More
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -414,3 +421,5 @@ function FallbackPropertyCard() {
         </div>
     );
 }
+
+export default Home;
