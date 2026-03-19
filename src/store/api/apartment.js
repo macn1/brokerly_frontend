@@ -265,6 +265,7 @@ export const ApartmentApi = createApi({
 });
 
 export const {
+    
     useUpdateApartmentStatusMutation,
     useGetAllaprtmentsNameQuery,
     useGetAllApartmentpaginatedClientsQuery,
