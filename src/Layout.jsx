@@ -32,6 +32,8 @@ import Contacus from './pages/Contact-Us/Contactus'
 import VendorLogin from './pages/vendor/Login'
 import CustomerLeads from './pages/admin/CustomerLeads/Leads'
 import VendorSignup from './pages/vendor/Signup'
+import Bookings from './pages/admin/bookings/bookings'
+import Transaction from './pages/admin/transaction/transaction'
 export default function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,7 +51,7 @@ export default function Layout() {
   // }, [hasRedirected, location.pathname, navigate]);
 
   const isLayoutHidden =
-    location.pathname.startsWith("/admin") || location.pathname === "/login"||  location.pathname === "/vendor-login" ||  location.pathname === "/vendor-register";
+    location.pathname.startsWith("/admin") || location.pathname === "/login" || location.pathname === "/vendor-login" || location.pathname === "/vendor-register";
 
 
 
@@ -77,20 +79,22 @@ export default function Layout() {
           <Route path="/apartments" element={<Apartments />} />
           <Route path="/contact-us" element={<Contacus />} />
           <Route path="/login" element={<Login />} />
-            <Route path="/vendor-login" element={<VendorLogin />} />
-            <Route path="/vendor-register" element={<VendorSignup />} />
+          <Route path="/vendor-login" element={<VendorLogin />} />
+          <Route path="/vendor-register" element={<VendorSignup />} />
 
 
           <Route element={<PrivateRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="apartment-list" element={<Apartment />} />
-              <Route path="staff-list" element={<Stafflist/>} />
+              <Route path="staff-list" element={<Stafflist />} />
               <Route path="apartment-amenities" element={<Amenities />} />
-              <Route path="vendor-onboard" element={<OnboardVendor/>} />
+              <Route path="vendor-onboard" element={<OnboardVendor />} />
               <Route path="contacted-customers" element={<Contacted />} />
               <Route path="apartment-facility" element={<Facility />} />
               <Route path="customer-leads" element={<CustomerLeads />} />
+              <Route path="bookings" element={<Bookings />} />
+              <Route path="transactions" element={<Transaction />} />
               <Route path="extra-service" element={<Extra />} />
             </Route>
           </Route>

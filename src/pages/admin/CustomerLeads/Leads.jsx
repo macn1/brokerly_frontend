@@ -85,6 +85,7 @@ const List = () => {
         { label: "Phone", key: "mobile" },
 
         { label: "message", key: "message" },
+         { label: "Apartment", key: "apartment_name" },
         { label: "Requested_Mode", key: "request_mode" },
         {
             label: "Visit",

@@ -66,6 +66,18 @@ export const BookingsAPI = createApi({
             },
             providesTags: ['Leads'],
         }),
+        getAllcustomerBookings: builder.query({
+            query: ({ page = 1, page_size = 10, ...filters }) => {
+                const params = new URLSearchParams({
+                    page,
+                    page_size,
+                    ...filters,
+                }).toString();
+
+                return `/bookings/all-bookings?${params}`;
+            },
+            providesTags: ['Leads'],
+        }),
         getAllcustomerVendorLeads: builder.query({
             query: ({ page = 1, page_size = 10, ...filters }) => {
                 const params = new URLSearchParams({
@@ -75,6 +87,18 @@ export const BookingsAPI = createApi({
                 }).toString();
 
                 return `/bookings/vendor-all-leads?${params}`;
+            },
+            providesTags: ['Leads'],
+        }),
+          getAllcustomerVendorBookings: builder.query({
+            query: ({ page = 1, page_size = 10, ...filters }) => {
+                const params = new URLSearchParams({
+                    page,
+                    page_size,
+                    ...filters,
+                }).toString();
+
+                return `/bookings/vendor-all-bookings?${params}`;
             },
             providesTags: ['Leads'],
         }),
@@ -102,6 +126,13 @@ export const BookingsAPI = createApi({
             }),
             invalidatesTags: ['Leads'],
         }),
+          getAllTransaction: builder.query({
+            query: (id) => ({
+                url: `/bookings/vendor-transactions`,
+                method: 'get',
+            }),
+            providesTags: ['Leads'],
+        }),
 
 
         // getAllAdmin
@@ -109,6 +140,9 @@ export const BookingsAPI = createApi({
 });
 
 export const {
+    useGetAllTransactionQuery,
+    useGetAllcustomerBookingsQuery,
+    useGetAllcustomerVendorBookingsQuery,
     useGetleadsDetailQuery,
     useCreateLeadVisitMutation,
     useDeleteApartmentLeadsMutation,

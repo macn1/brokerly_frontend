@@ -64,31 +64,32 @@ const AdminLayout = () => {
       roles: ["User", "Vendor"],
     },
 
-    // FIXED — Submenu now has roles
+
+   {
+  icon: <GetIcon iconName="RiCustomerService2Line" />,
+  label: "CRM",
+  isSubMenu: true,
+  roles: ["User", "Vendor", "Admin"],
+  subMenuKey: "crm-menu",
+  subMenuItems: [
     {
-      icon: <GetIcon iconName="RiCustomerService2Line" />,
-      label: "CRM",
-      isSubMenu: true,
-      roles: ["User", "Vendor", "Admin"],
-      subMenuKey: "crm-menu",
-      subMenuItems: [
-        {
-          label: "Leads",
-          to: "/admin/customer-leads",
-          icon: <GetIcon iconName="FaCodePullRequest"/>,
-        },
-        {
-          label: "Approved Bookings",
-          to: "/admin/leads",
-          icon: <GetIcon iconName="FaRegCalendarCheck" />,
-        },
-        {
-          label: "Transactions",
-          to: "/admin/transactions",
-          icon: <GetIcon iconName="GrTransaction" />,
-        },
-      ],
+      label: "Leads",
+      to: "/admin/customer-leads",
+      icon: <GetIcon iconName="FaCodePullRequest"/>,
     },
+    {
+      label: "Approved Bookings",
+      to: "/admin/bookings",
+      icon: <GetIcon iconName="FaRegCalendarCheck" />,
+    },
+    {
+      label: "Transactions",
+      to: "/admin/transactions",
+      icon: <GetIcon iconName="GrTransaction" />,
+      roles: ["Admin"], // ✅ only admin can see this
+    },
+  ],
+},
 
     {
       icon: <GetIcon iconName="DiAptana" />,
